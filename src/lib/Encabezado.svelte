@@ -1,20 +1,21 @@
 <script>
-	import { loggedin } from './../Stores.js';
+  import { loggedin } from "./../Stores.js";
   import { createEventDispatcher, onMount } from "svelte";
   import { Spinner } from "sveltestrap";
 
   export let linkPruebas = [];
   const dispatch = createEventDispatcher();
 
-  let cargando=true;
-  onMount(() => {
-  });
+  let cargando = true;
+  onMount(() => {});
 
-  $:cargando=linkPruebas.length===0;
-  
+  $: cargando = linkPruebas.length === 0;
+
   export let estudiante;
   let nombres;
-  $: nombres = `${estudiante.apellido1} ${estudiante.apellido2} ${estudiante.nombre1} ${estudiante.nombre2?estudiante.nombre2:""}`;
+  $: nombres = `${estudiante.apellido1} ${estudiante.apellido2} ${
+    estudiante.nombre1
+  } ${estudiante.nombre2 ? estudiante.nombre2 : ""}`;
 
   const setIcon = (text) => {
     return text.includes("Sociales")
@@ -25,7 +26,20 @@
       ? '<i class="fa-solid fa-earth-americas text-primary"></i>'
       : text.includes("Mate")
       ? '<i class="fa-solid fa-brain text-danger"></i>'
-      :  text.includes("Lectura")?'<i class="fa-solid fa-book text-secondary"></i>':'';
+      : text.includes("Lectura")
+      ? '<i class="fa-solid fa-book text-secondary"></i>'
+      : "";
+  };
+
+  const logout = async () => {
+    // @ts-ignore
+    const {isConfirmed} = await Swal.fire({
+      title: "Desea cerrar sesión",
+      showDenyButton: true,
+      confirmButtonText: "Si",
+      denyButtonText: `No`,
+    });
+    $loggedin=!isConfirmed;
   };
 </script>
 
@@ -50,7 +64,8 @@
             <a
               class="nav-link text-primary fw-bold"
               aria-current="page"
-              href="#!"><i class="fa-solid fa-square-poll-vertical"></i> Resultados</a
+              href="#!"
+              ><i class="fa-solid fa-square-poll-vertical" /> Resultados</a
             >
           </li>
           {#each linkPruebas as prueba}
@@ -61,18 +76,22 @@
                 data-bs-toggle="collapse"
                 data-bs-target=".navbar-collapse.show"
                 on:click={() => {
-                  dispatch("prueba", { prueba,icon:setIcon(prueba) });
+                  dispatch("prueba", { prueba, icon: setIcon(prueba) });
                 }}>{@html setIcon(prueba)} {prueba}</a
               >
             </li>
           {/each}
           {#if cargando}
-             <Spinner color="primary" type="grow"/>
+            <Spinner color="primary" type="grow" />
           {/if}
           <li><hr class="dropdown-divider" /></li>
           <li class="nav-item text-start">
-            <a class="nav-link text-success" aria-current="page" href="#!"
-             on:click={()=>$loggedin=false} ><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a
+            <a
+              class="nav-link text-success"
+              aria-current="page"
+              href="#!"
+              on:click={logout}
+              ><i class="fa-solid fa-right-from-bracket" /> Cerrar Sesión</a
             >
           </li>
         </ul>
