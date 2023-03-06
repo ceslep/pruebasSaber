@@ -33,13 +33,13 @@
 
   const logout = async () => {
     // @ts-ignore
-    const {isConfirmed} = await Swal.fire({
+    const { isConfirmed } = await Swal.fire({
       title: "Desea cerrar sesión",
       showDenyButton: true,
       confirmButtonText: "Si",
       denyButtonText: `No`,
     });
-    $loggedin=!isConfirmed;
+    $loggedin = !isConfirmed;
   };
 </script>
 
@@ -65,6 +65,9 @@
               class="nav-link text-primary fw-bold"
               aria-current="page"
               href="#!"
+              data-bs-toggle="collapse"
+              data-bs-target=".navbar-collapse.show"
+              on:click={() => dispatch("resultados")}
               ><i class="fa-solid fa-square-poll-vertical" /> Resultados</a
             >
           </li>
@@ -90,6 +93,8 @@
               class="nav-link text-success"
               aria-current="page"
               href="#!"
+              data-bs-toggle="collapse"
+              data-bs-target=".navbar-collapse.show"
               on:click={logout}
               ><i class="fa-solid fa-right-from-bracket" /> Cerrar Sesión</a
             >

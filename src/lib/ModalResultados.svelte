@@ -105,9 +105,7 @@
     });
   
     export let show = false;
-    export let title = "";
     export let estudiante;
-    export let prueba;
     export let periodo;
     let animated;
   
@@ -124,7 +122,7 @@
         navigator
           .share({
             title: "Compartir Respuesta de la Prueba",
-            text: JSON.stringify(generarJSON()),
+            text: JSON.stringify({}),
             url: "https://www.ejemplo.com",
           })
           .then(() => console.log("El contenido se compartió correctamente."))
@@ -143,7 +141,6 @@
         body: JSON.stringify({
           estudiante: estudiante.identificacion,
           periodo,
-          prueba,
         }),
       });
       return await response.json();
@@ -173,7 +170,7 @@
       <div class="modal-content">
         <header class="modal-header bg-warning bg-gradient bg-opacity-25">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            <span class="fs-6">{title}</span>
+            <span class="fs-6">Resultados</span>
           </h1>
           <button
             type="button"
@@ -192,17 +189,8 @@
          
         </main>
         <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
-          <button class="btn btn-warning rounded-0" on:click={enviar}
-            ><i class="fa-solid fa-cloud-arrow-up" />
-            {#if guardando}
-              <div class="spinner-border spinner-border-sm" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            {/if}
-          </button>
-          <button class="btn btn-danger bg-gradient bg-opacity-25 rounded-0"
-            ><i class="fa-solid fa-floppy-disk" /> 
-          </button>
+          
+          
           <button
             class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
             on:click={compartir}
