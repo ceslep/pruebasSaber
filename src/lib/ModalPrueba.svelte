@@ -106,6 +106,9 @@
           el.checked = true;
         });
       }
+      progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+        (getParcial() * 100) / Total
+      )}%`
     } catch (error) {
       // console.error(error)
     }
@@ -126,6 +129,7 @@
   export let prueba;
   export let periodo;
   let animated;
+  let progreso;
 
   $: if (Modal) {
     if (show) Modal.show();
@@ -256,11 +260,12 @@
       timer: 1500,
       timerProgressBar: true,
     });
+    progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+        (getParcial() * 100) / Total
+      )}%`
     Toast.fire({
       icon: "info",
-      title: `Preguntas ${getParcial()} de ${Total} ${Math.floor(
-        (getParcial() * 100) / Total
-      )}%`,
+      title:progreso,
     });
   };
 </script>
@@ -286,7 +291,7 @@
     <div class="modal-content">
       <header class="modal-header bg-warning bg-gradient bg-opacity-25">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          <span class="fs-6">{@html icon} {title}</span>
+          <span class="fs-6">{@html icon} {title} {progreso}</span>
         </h1>
         <button
           type="button"
