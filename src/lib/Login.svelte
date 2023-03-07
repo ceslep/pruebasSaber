@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
 
-  import { URL } from "./../Stores.js";
+  import { URL,_Estudiante } from "./../Stores.js";
  
   // @ts-nocheck
 
@@ -41,8 +41,10 @@ const dispatch = createEventDispatcher();
       icon:"error",
       text:"Acceso Denegado"
      });
-    else 
+    else {
+      $_Estudiante=estudiante;
     dispatch("login",{estudiante})
+    }
     loginspn = !loginspn;
   }catch(error){
     Swal.fire({

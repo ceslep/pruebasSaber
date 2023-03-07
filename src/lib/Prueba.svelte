@@ -73,13 +73,15 @@
     <img class="img-fluid" alt="" src="./escudo.png" width="400" />
   </div>
 
+  {#if showModalResultados}
   <ModalResultados
     show={showModalResultados}
     on:close={() => (showModalResultados = false)}
     {estudiante}
     {periodo}
   />
-
+{/if}
+{#if showModalPrueba}
   <ModalPrueba
     show={showModalPrueba}
     title={prueba}
@@ -90,7 +92,7 @@
     {prueba}
     {periodo}
   />
-
+{/if}
   <Pie sede={estudiante.sede} grupo={estudiante.grupo} />
 </main>
 

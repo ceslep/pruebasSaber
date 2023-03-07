@@ -1,5 +1,5 @@
 <script>
-  import { URL } from "./../Stores.js";
+  import { URL,_Estudiante } from "./../Stores.js";
   import {
     onMount,
     onDestroy,
@@ -7,6 +7,7 @@
     afterUpdate,
   } from "svelte";
   import "animate.css";
+  import DetailResults from "./DetailResults.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -68,18 +69,24 @@
     return animates[Math.floor(Math.random() * animates.length)];
   };
 
-  onMount(async () => {});
+  let resultados=[];
+  let verRespuestas=false;
+
+  onMount(async () => {
+    verRespuestas=true;
+  });
 
   afterUpdate(async () => {
-    animated = getAnimated();
    
 
     try {
-      let resultados = await getResults();
-      resultados=[... resultados.map(t=>JSON.parse(t[0]))];
-      console.log(resultados);
+      if (verRespuestas){
+        animated = getAnimated();
+        verRespuestas=false;
+      resultados = await getResults();
+      }
     } catch (error) {
-       console.error(error)
+      console.error(error);
     }
   });
 
@@ -119,7 +126,7 @@
   };
 
   const getResults = async () => {
-    let response = await fetch(`${$URL}getRespuestas.php`, {
+    let response = await fetch(`${$URL}getRespuestasFull.php`, {
       method: "POST",
       body: JSON.stringify({
         estudiante: estudiante.identificacion,
@@ -128,7 +135,11 @@
     });
     return await response.json();
   };
-  // array para almacenar las fracciones
+ 
+
+  let nombresEstudiante;
+  let {apellido1,apellido2,nombre1,nombre2}=$_Estudiante.data[0];
+ $:nombresEstudiante=`${apellido1} ${apellido2} ${nombre1} ${nombre2}`
 </script>
 
 <article
@@ -167,7 +178,10 @@
         </button>
       </header>
 
-      <main class="modal-body" />
+      <main class="modal-body">
+        <strong class="text-primary">{nombresEstudiante}</strong>
+        <DetailResults pruebas={resultados.map(r=>r.prueba)}/>
+      </main>
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
         <button
           class="btn btn-success bg-gradient bg-opacity-25 rounded-0"

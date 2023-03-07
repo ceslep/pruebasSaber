@@ -93,6 +93,7 @@
     Total = inputs.length / 4;
     try {
       let resultados = await JSON.parse(await getResults());
+      console.log(resultados);
       if (resultados && resultados.respuestas.length > 0) {
         console.log(resultados.respuestas);
         resultados.respuestas.forEach((res) => {
@@ -135,19 +136,15 @@
   let C;
   const generarJSON = () => {
     let infoRespuestas = {
-      prueba,
-      estudiante: estudiante.identificacion,
       respuestas: [],
     };
     let resPuestasPrueba = [];
-    console.log(form.elements.length);
     C = 0;
     for (let i = 0; i < form.elements.length; i++) {
       if (form.elements[i].checked) {
         let Respuesta = {};
         Respuesta.respuesta = form.elements[i].dataset.correcta;
         Respuesta.searchpregunta = form.elements[i].dataset.searchpregunta;
-        console.log(Respuesta);
         resPuestasPrueba = [...resPuestasPrueba, Respuesta];
         C++;
       }
