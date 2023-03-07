@@ -22,6 +22,7 @@
   onMount(() => {
     consultando = true;
     showModalPrueba = false;
+    showModalResultados = false;
   });
 
   const getPruebas = async (Nivel) => {
@@ -39,6 +40,7 @@
       linkPruebas = [...new Set(Pruebas.map((p) => p.NucleoComun))];
       consultando = false;
       showModalPrueba = false;
+      showModalResultados = false;
     }
   });
 
@@ -53,9 +55,9 @@
     showModalPrueba = true;
   };
 
-  const manageResultados=()=>{
-    showModalResultados=true;
-  }
+  const manageResultados = () => {
+    showModalResultados = true;
+  };
 
   $: PruebaARealizar = [...PruebaARealizar.sort(() => Math.random() - 0.5)];
 </script>
