@@ -180,7 +180,7 @@
 
       <main class="modal-body">
         <strong class="text-primary">{nombresEstudiante}</strong>
-        <DetailResults pruebas={resultados.map(r=>r.prueba)}/>
+        <DetailResults pruebas={resultados.map(r=>r.prueba)} {resultados}/>
       </main>
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
         <button

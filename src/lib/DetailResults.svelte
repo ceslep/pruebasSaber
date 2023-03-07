@@ -1,13 +1,23 @@
 <script>
+  import { onMount,afterUpdate } from "svelte";
   import { Accordion, AccordionItem, Alert } from "sveltestrap";
+  import TablaRespuestas from "./TablaRespuestas.svelte";
   export let pruebas = [];
+  export let resultados;
+
+  onMount(()=>{
+  })
+
+  afterUpdate(()=>{
+    console.log(resultados);
+  })
 </script>
 
 <main>
   <Accordion>
     {#each pruebas as prueba}
       <AccordionItem header={prueba}>
-        {prueba}
+        <TablaRespuestas respuestas={resultados.filter(r=>r.prueba===prueba).map(r=>r.respuesta.respuestas)}/>
       </AccordionItem>
     {:else}
       <Alert color={"primary"}>

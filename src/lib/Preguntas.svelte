@@ -71,7 +71,7 @@
                   data-correcta={indexRespuesta ===
                     letters.indexOf(RespuestaCorrecta)}
                   value={indexRespuesta === letters.indexOf(RespuestaCorrecta)}
-                  data-searchpregunta={respuesta.length >= 50
+                  data-searchpregunta={(respuesta.length >= 50
                     ? respuesta
                         .substring(30, 50)
                         .trim()
@@ -87,7 +87,7 @@
                         .replaceAll("é", "")
                         .replaceAll("í", "")
                         .replaceAll("ó", "")
-                        .replaceAll("ú", "")+indexRespuesta 
+                        .replaceAll("ú", "") + indexRespuesta
                     : respuesta
                         .substring(0, 5)
                         .trim()
@@ -103,7 +103,8 @@
                         .replaceAll("é", "")
                         .replaceAll("í", "")
                         .replaceAll("ó", "")
-                        .replaceAll("ú", "")+indexRespuesta }
+                        .replaceAll("ú", "") + indexRespuesta
+                  ).split('').reverse().join('')}
                   on:click={() => dispatch("clicked", { index })}
                 />
                 <li class="text-start">
