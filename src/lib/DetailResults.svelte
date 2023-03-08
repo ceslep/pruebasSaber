@@ -14,6 +14,7 @@
 </script>
 
 <main>
+  {#if pruebas && pruebas.length>0}
   <Accordion>
     {#each pruebas as prueba}
       <AccordionItem header={prueba}>
@@ -26,4 +27,5 @@
       </Alert>
     {/each}
   </Accordion>
+  {/if}
 </main>

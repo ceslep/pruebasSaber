@@ -1,5 +1,5 @@
 <script>
-  import { URL,_Estudiante } from "./../Stores.js";
+  import { URL, _Estudiante } from "./../Stores.js";
   import {
     onMount,
     onDestroy,
@@ -69,21 +69,19 @@
     return animates[Math.floor(Math.random() * animates.length)];
   };
 
-  let resultados=[];
-  let verRespuestas=false;
+  let resultados = [];
+  let verRespuestas = false;
 
   onMount(async () => {
-    verRespuestas=true;
+    verRespuestas = true;
   });
 
   afterUpdate(async () => {
-   
-
     try {
-      if (verRespuestas){
+      if (verRespuestas) {
         animated = getAnimated();
-        verRespuestas=false;
-      resultados = await getResults();
+        verRespuestas = false;
+        resultados = await getResults();
       }
     } catch (error) {
       console.error(error);
@@ -135,11 +133,10 @@
     });
     return await response.json();
   };
- 
 
   let nombresEstudiante;
-  let {apellido1,apellido2,nombre1,nombre2}=$_Estudiante.data[0];
- $:nombresEstudiante=`${apellido1} ${apellido2} ${nombre1} ${nombre2}`
+  let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.data[0];
+  $: nombresEstudiante = `${apellido1} ${apellido2} ${nombre1} ${nombre2}`;
 </script>
 
 <article
@@ -156,6 +153,7 @@
     class="modal-dialog 
         modal-dialog-scrollable
         modal-fullscreen-md-down
+        modal-dialog-centered
         modal-lg
                animate__animated {animated}
               "
@@ -180,7 +178,12 @@
 
       <main class="modal-body">
         <strong class="text-primary">{nombresEstudiante}</strong>
-        <DetailResults pruebas={resultados.map(r=>r.prueba)} {resultados}/>
+        {#if resultados}
+          <DetailResults
+            pruebas={resultados.map((r) => r.prueba)}
+            {resultados}
+          />
+        {/if}
       </main>
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
         <button
