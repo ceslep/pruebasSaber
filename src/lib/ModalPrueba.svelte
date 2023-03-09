@@ -83,53 +83,35 @@
   };
   let Total;
 
-  let noRenderer = true;
-
   onMount(async () => {
     inicio = generarHora();
-    noRenderer = true;
-    await setRespuestas();
   });
-
-
-  const setRespuestas=async ()=>{
-    let inputs = document.querySelectorAll(".form-check-input");
-      Total = inputs.length / 4;
-      let respuestas=await getResults();
-      console.log(respuestas);
-      respuestas=respuestas.map(r=>(JSON.parse(r[0])));
-      console.log(respuestas);
-      return;
-      try {
-        let resultados = await JSON.parse(await getResults());
-        console.log(resultados);
-        if (resultados && resultados.respuestas.length > 0) {
-          console.log(resultados.respuestas);
-          resultados.respuestas.forEach((res) => {
-            // @ts-ignore
-            let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
-            let el = document.querySelector(srel);
-            // @ts-ignore
-            el.value = true;
-            // @ts-ignore
-            el.checked = true;
-          });
-        }
-        progreso = `Preguntas ${getParcial()} de ${Total} ${Math.floor(
-          (getParcial() * 100) / Total
-        )}%`;
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  
   afterUpdate(async () => {
-    if (noRenderer) {
-      noRenderer = false;
-      animated = getAnimated();
-    }  
-  }
-  );
+    animated = getAnimated();
+    let inputs = document.querySelectorAll(".form-check-input");
+    Total = inputs.length / 4;
+    try {
+      let resultados = await JSON.parse(await getResults());
+      console.log(resultados);
+      if (resultados && resultados.respuestas.length > 0) {
+        console.log(resultados.respuestas);
+        resultados.respuestas.forEach((res) => {
+          // @ts-ignore
+          let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
+          let el = document.querySelector(srel);
+          // @ts-ignore
+          el.value = true;
+          // @ts-ignore
+          el.checked = true;
+        });
+      }
+      progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+        (getParcial() * 100) / Total
+      )}%`
+    } catch (error) {
+      // console.error(error)
+    }
+  });
 
   onDestroy(() => {
     console.log("destruyendo");
@@ -305,6 +287,7 @@
     class="modal-dialog 
       modal-dialog-scrollable
       modal-fullscreen-md-down
+      modal-dialog-centered
       modal-lg
              animate__animated {animated}
             "
@@ -329,7 +312,9 @@
 
       <main class="modal-body">
         <form bind:this={form}>
-          <Preguntas {PruebaARealizar} on:clicked={manageClicked} />
+          {#if PruebaARealizar.length > 0}
+            <Preguntas {PruebaARealizar} on:clicked={manageClicked} />
+          {/if}
         </form>
       </main>
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
