@@ -70,6 +70,7 @@
   };
 
   let resultados=[];
+  export let Pruebas=[];
   let verRespuestas=false;
 
   onMount(async () => {
@@ -107,6 +108,10 @@
     else Modal.hide();
   }
 
+  let PruebaCodificada;
+  
+  
+
   const compartir = () => {
     if (navigator.share) {
       navigator
@@ -131,6 +136,17 @@
       body: JSON.stringify({
         estudiante: estudiante.identificacion,
         periodo,
+      }),
+    });
+    return await response.json();
+  };
+
+  const getPruebas = async () => {
+    let response = await fetch(`${$URL}getPruebas.php`, {
+      method: "POST",
+      body: JSON.stringify({
+               Nivel:estudiante.nivel,
+               periodo,
       }),
     });
     return await response.json();

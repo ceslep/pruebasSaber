@@ -8,7 +8,6 @@
     afterUpdate,
   } from "svelte";
   import "animate.css";
-  import { Spinner } from "sveltestrap";
 
   const dispatch = createEventDispatcher();
 
@@ -84,35 +83,53 @@
   };
   let Total;
 
+  let noRenderer = true;
+
   onMount(async () => {
     inicio = generarHora();
+    noRenderer = true;
+    await setRespuestas();
   });
-  afterUpdate(async () => {
-    animated = getAnimated();
+
+
+  const setRespuestas=async ()=>{
     let inputs = document.querySelectorAll(".form-check-input");
-    Total = inputs.length / 4;
-    try {
-      let resultados = await JSON.parse(await getResults());
-      console.log(resultados);
-      if (resultados && resultados.respuestas.length > 0) {
-        console.log(resultados.respuestas);
-        resultados.respuestas.forEach((res) => {
-          // @ts-ignore
-          let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
-          let el = document.querySelector(srel);
-          // @ts-ignore
-          el.value = true;
-          // @ts-ignore
-          el.checked = true;
-        });
+      Total = inputs.length / 4;
+      let respuestas=await getResults();
+      console.log(respuestas);
+      respuestas=respuestas.map(r=>(JSON.parse(r[0])));
+      console.log(respuestas);
+      return;
+      try {
+        let resultados = await JSON.parse(await getResults());
+        console.log(resultados);
+        if (resultados && resultados.respuestas.length > 0) {
+          console.log(resultados.respuestas);
+          resultados.respuestas.forEach((res) => {
+            // @ts-ignore
+            let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
+            let el = document.querySelector(srel);
+            // @ts-ignore
+            el.value = true;
+            // @ts-ignore
+            el.checked = true;
+          });
+        }
+        progreso = `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+          (getParcial() * 100) / Total
+        )}%`;
+      } catch (error) {
+        console.error(error)
       }
-      progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
-        (getParcial() * 100) / Total
-      )}%`
-    } catch (error) {
-      // console.error(error)
     }
-  });
+  
+  afterUpdate(async () => {
+    if (noRenderer) {
+      noRenderer = false;
+      animated = getAnimated();
+    }  
+  }
+  );
 
   onDestroy(() => {
     console.log("destruyendo");
@@ -149,6 +166,10 @@
         let Respuesta = {};
         Respuesta.respuesta = form.elements[i].dataset.correcta;
         Respuesta.searchpregunta = form.elements[i].dataset.searchpregunta;
+        Respuesta.textodelapregunta = form.elements[i].dataset.pregunta;
+        Respuesta.continuaciontextodelapregunta = form.elements[i].dataset.continuacionpregunta;
+        Respuesta.textorespuesta = form.elements[i].dataset.textorespuesta;
+        console.log(Respuesta)
         resPuestasPrueba = [...resPuestasPrueba, Respuesta];
         C++;
       }
@@ -176,7 +197,7 @@
       title: "Guardando prueba",
       showConfirmButton: false,
       timer: 3500,
-      toast:true
+      toast: true,
     });
     let fin = generarHora();
     let data = {
@@ -260,12 +281,12 @@
       timer: 1500,
       timerProgressBar: true,
     });
-    progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
-        (getParcial() * 100) / Total
-      )}%`
+    progreso = `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+      (getParcial() * 100) / Total
+    )}%`;
     Toast.fire({
       icon: "info",
-      title:progreso,
+      title: progreso,
     });
   };
 </script>
@@ -321,12 +342,12 @@
           {/if}
         </button>
         <button class="btn btn-danger bg-gradient bg-opacity-25 rounded-0"
-          ><i class="fa-solid fa-floppy-disk" /> 
+          ><i class="fa-solid fa-floppy-disk" />
         </button>
         <button
           class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
           on:click={compartir}
-          ><i class="fa-solid fa-share-nodes" /> 
+          ><i class="fa-solid fa-share-nodes" />
         </button>
         <button
           type="button"
@@ -334,8 +355,9 @@
           data-bs-dismiss="modal"
           on:click={() => {
             dispatch("close");
-          }}><i class="fa-solid fa-circle-xmark" /> </button
-        >
+          }}
+          ><i class="fa-solid fa-circle-xmark" />
+        </button>
       </footer>
     </div>
   </div>

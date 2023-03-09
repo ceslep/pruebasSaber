@@ -1,6 +1,8 @@
 <script>
   import { afterUpdate, createEventDispatcher } from "svelte";
   export let PruebaARealizar = [];
+
+  $:console.log(PruebaARealizar)
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
 
@@ -21,6 +23,7 @@
 </script>
 
 <main class="container container-sm container-md">
+  {#if PruebaARealizar.length>0}
   <ol>
     {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
       <li id={`pregunta${index}`}>
@@ -68,6 +71,9 @@
                   name="respuesta{index}"
                   id="respuesta{index}{indexRespuesta}"
                   data-id="respuesta{index}{indexRespuesta}"
+                  data-pregunta={TextoDeLaPregunta.replace(/\n/g, "")}
+                  data-continuacionpregunta={ContinuacionTextoDeLaPregunta?ContinuacionTextoDeLaPregunta.replace(/\n/g, ""):""}
+                  data-textorespuesta={respuesta.replace(/\n/g, "")}
                   data-correcta={indexRespuesta ===
                     letters.indexOf(RespuestaCorrecta)}
                   value={indexRespuesta === letters.indexOf(RespuestaCorrecta)}
@@ -133,6 +139,7 @@
       <br />
     {/each}
   </ol>
+  {/if}
 </main>
 
 <style>
