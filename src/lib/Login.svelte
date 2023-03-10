@@ -51,6 +51,7 @@ const dispatch = createEventDispatcher();
       icon:"error",
       text:"Ha ocurrdio un error, revise su conexión a internet"
     })
+    loginspn = !loginspn;
   }
   }
 </script>
