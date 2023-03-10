@@ -82,12 +82,16 @@
     return `${horas}:${minutos}:${segundos}`;
   };
   let Total;
+  let rendered=true;
 
   onMount(async () => {
     inicio = generarHora();
   });
   afterUpdate(async () => {
+    if(rendered){
+      rendered=false;
     animated = getAnimated();
+    }
     let inputs = document.querySelectorAll(".form-check-input");
     Total = inputs.length / 4;
     try {

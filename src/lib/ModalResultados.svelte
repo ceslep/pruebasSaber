@@ -69,14 +69,13 @@
     return animates[Math.floor(Math.random() * animates.length)];
   };
 
-<<<<<<< HEAD
+
   let resultados=[];
   export let Pruebas=[];
   let verRespuestas=false;
-=======
-  let resultados = [];
-  let verRespuestas = false;
->>>>>>> 98a7d490c21837bdb375e3f296d19d81e253c4d7
+
+ 
+
 
   onMount(async () => {
     verRespuestas = true;
@@ -143,7 +142,6 @@
     });
     return await response.json();
   };
-<<<<<<< HEAD
 
   const getPruebas = async () => {
     let response = await fetch(`${$URL}getPruebas.php`, {
@@ -156,8 +154,8 @@
     return await response.json();
   };
  
-=======
->>>>>>> 98a7d490c21837bdb375e3f296d19d81e253c4d7
+
+
 
   let nombresEstudiante;
   let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.data[0];

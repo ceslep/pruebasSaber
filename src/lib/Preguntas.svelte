@@ -71,9 +71,9 @@
                   name="respuesta{index}"
                   id="respuesta{index}{indexRespuesta}"
                   data-id="respuesta{index}{indexRespuesta}"
-                  data-pregunta={TextoDeLaPregunta.replace(/\n/g, "")}
-                  data-continuacionpregunta={ContinuacionTextoDeLaPregunta?ContinuacionTextoDeLaPregunta.replace(/\n/g, ""):""}
-                  data-textorespuesta={respuesta.replace(/\n/g, "")}
+                  data-pregunta={TextoDeLaPregunta.replace(/\n/g, " ")}
+                  data-continuacionpregunta={ContinuacionTextoDeLaPregunta?ContinuacionTextoDeLaPregunta.replace(/\n/g, " "):" "}
+                  data-textorespuesta={respuesta.replace(/\n/g, " ")}
                   data-correcta={indexRespuesta ===
                     letters.indexOf(RespuestaCorrecta)}
                   value={indexRespuesta === letters.indexOf(RespuestaCorrecta)}
