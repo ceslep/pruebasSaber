@@ -8,7 +8,6 @@
   const login = (e) => {
     $loggedin = true;
     estudiante = e.detail.estudiante.data[0];
-    console.log(estudiante);
   };
 </script>
 

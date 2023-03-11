@@ -79,7 +79,7 @@
     on:close={() => (showModalResultados = false)}
     {estudiante}
     {periodo}
-    {Pruebas}
+    
   />
 {/if}
 {#if showModalPrueba}

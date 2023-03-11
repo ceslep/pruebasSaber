@@ -70,8 +70,7 @@
   };
 
 
-  let resultados=[];
-  export let Pruebas=[];
+  let resultados;
   let verRespuestas=false;
 
  
@@ -203,7 +202,7 @@
         <strong class="text-primary">{nombresEstudiante}</strong>
         {#if resultados}
           <DetailResults
-            pruebas={resultados.map((r) => r.prueba)}
+            pruebas={resultados.map(r => r.prueba)}
             {resultados}
           />
         {/if}

@@ -1,39 +1,56 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import { Accordion, AccordionItem, Alert } from "sveltestrap";
-  import { _Evaluacion } from "../Stores";
   import TablaRespuestas from "./TablaRespuestas.svelte";
   export let pruebas = [];
-  export let resultados;
+  export let resultados = [];
 
-  onMount(() => {});
+  onMount(() => {
+    Valoraciones = [
+      ...resultados.map((r) => {
+        return {
+          prueba: r.prueba,
+          total: r.respuesta.respuestas.length,
+          analisis: r.respuesta.respuestas
+            .map((re) => (re.respuesta === "true" ? 1 : 0))
+            .reduce((a, b) => a + b),
+        };
+      }),
+    ].map((V) => {
+      let porcentaje = Math.round((V.analisis * 100) / V.total);
+      return {
+        porcentaje,
+        ...V,
+      };
+    });
+  });
 
   afterUpdate(() => {
-    console.log({ resultados:resultados.length>0&&resultados });
+    //   console.log({ resultados });
   });
 
   let Valoraciones = [];
 
-  $: if (resultados.length > 0) {
-    Valoraciones = resultados.map((r) => {
-      return {
-        prueba: r.prueba,
-        analisis: r.respuesta.respuestas.map(r=>{
-          return r.respuestas.respuestas.map(re=>console.log({re}))
-        }),
-        total: r.respuesta.respuestas && r.respuesta.respuestas.length,
-      };
-    });
-  }
-
-  $: if (Valoraciones.length > 0) console.log({ Valoraciones });
+  const gE = (prueba, key) => {
+    return [
+      ...Valoraciones.filter((V) => V.prueba === prueba).map((Fv) => {
+        const { total, porcentaje, analisis } = Fv;
+        return { total, porcentaje, analisis };
+      }),
+    ][0][key];
+  };
 </script>
 
 <main>
-  {#if pruebas && pruebas.length > 0}
+  {#if pruebas && pruebas.length > 0 && Valoraciones.length > 0}
     <Accordion>
       {#each pruebas as prueba}
-        <AccordionItem header={`${prueba} ${JSON.stringify($_Evaluacion)}`}>
+        <AccordionItem
+          header={`${prueba} ${gE(prueba, "porcentaje")} ${gE(
+            prueba,
+            "total"
+          )} ${gE(prueba, "analisis")}`}
+        >
           <TablaRespuestas
             respuestas={resultados
               .filter((r) => r.prueba === prueba)
@@ -41,7 +58,6 @@
             on:evaluacion={(e) => {
               console.log({ evaluacion: e.detail });
             }}
-            {prueba}
           />
         </AccordionItem>
       {:else}

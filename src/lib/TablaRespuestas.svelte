@@ -1,15 +1,14 @@
 <script>
-	import { _Evaluacion } from './../Stores.js';
+	
   import { afterUpdate, createEventDispatcher } from "svelte";
   import { Table } from "sveltestrap";
   export let respuestas = [];
-  export let prueba;
-
+ 
 
   const dispatch = createEventDispatcher();
 
   afterUpdate(() => {
-    console.log(respuestas);
+  //  console.log(respuestas);
   });
 
   // @ts-ignore
