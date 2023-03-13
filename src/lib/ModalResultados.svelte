@@ -69,12 +69,8 @@
     return animates[Math.floor(Math.random() * animates.length)];
   };
 
-
   let resultados;
-  let verRespuestas=false;
-
- 
-
+  let verRespuestas = false;
 
   onMount(async () => {
     verRespuestas = true;
@@ -110,8 +106,6 @@
   }
 
   let PruebaCodificada;
-  
-  
 
   const compartir = () => {
     if (navigator.share) {
@@ -146,15 +140,12 @@
     let response = await fetch(`${$URL}getPruebas.php`, {
       method: "POST",
       body: JSON.stringify({
-               Nivel:estudiante.nivel,
-               periodo,
+        Nivel: estudiante.nivel,
+        periodo,
       }),
     });
     return await response.json();
   };
- 
-
-
 
   let nombresEstudiante;
   let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.data[0];
@@ -202,9 +193,15 @@
         <strong class="text-primary">{nombresEstudiante}</strong>
         {#if resultados}
           <DetailResults
-            pruebas={resultados.map(r => r.prueba)}
+            pruebas={resultados.map((r) => r.prueba)}
             {resultados}
           />
+        {:else}
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         {/if}
       </main>
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">

@@ -39,26 +39,36 @@
       }),
     ][0][key];
   };
+
+  let verTabla = false;
+  const openItem = (id, index) => {
+    verTabla = id;
+  };
 </script>
 
 <main>
   {#if pruebas && pruebas.length > 0 && Valoraciones.length > 0}
     <Accordion>
-      {#each pruebas as prueba}
+      {#each pruebas as prueba, index}
         <AccordionItem
-          header={`${prueba} ${gE(prueba, "porcentaje")} ${gE(
+          on:toggle={(e) => {
+            openItem(e.detail, index);
+          }}
+          header={`${prueba} ${gE(prueba, "porcentaje")}% de ${gE(
             prueba,
             "total"
-          )} ${gE(prueba, "analisis")}`}
+          )} correctas:${gE(prueba, "analisis")}`}
         >
-          <TablaRespuestas
-            respuestas={resultados
-              .filter((r) => r.prueba === prueba)
-              .map((r) => r.respuesta.respuestas)}
-            on:evaluacion={(e) => {
-              console.log({ evaluacion: e.detail });
-            }}
-          />
+          {#if verTabla}
+            <TablaRespuestas
+              respuestas={resultados
+                .filter((r) => r.prueba === prueba)
+                .map((r) => r.respuesta.respuestas)}
+              on:evaluacion={(e) => {
+                console.log({ evaluacion: e.detail });
+              }}
+            />
+          {/if}
         </AccordionItem>
       {:else}
         <Alert color={"primary"}>

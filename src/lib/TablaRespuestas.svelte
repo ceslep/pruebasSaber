@@ -46,7 +46,7 @@
   <tbody>
     {#if respuestas[0] && respuestas[0].length}
     {#each respuestas[0] as { respuesta, textodelapregunta, continuaciontextodelapregunta, textorespuesta }, index}
-      <tr>
+    <tr>
         <th class="text-center align-middle" scope="row">{index + 1}</th>
         <td class="text-justify">{textodelapregunta.decodeUnicode()}</td>
         <td class="text-justify"
