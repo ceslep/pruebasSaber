@@ -1,13 +1,15 @@
 <script>
   import { onMount, afterUpdate } from "svelte";
   import { Accordion, AccordionItem, Alert } from "sveltestrap";
+  import Graficas from "./Graficas.svelte";
   import TablaRespuestas from "./TablaRespuestas.svelte";
   export let pruebas = [];
   export let resultados = [];
 
   onMount(() => {
+    console.log({ resultados });
     Valoraciones = [
-      ...resultados.map((r) => {
+      ...resultados.map((r, i, a) => {
         return {
           prueba: r.prueba,
           total: r.respuesta.respuestas.length,
@@ -23,6 +25,7 @@
         ...V,
       };
     });
+    console.log({ Valoraciones });
   });
 
   afterUpdate(() => {
@@ -60,6 +63,17 @@
           )} correctas:${gE(prueba, "analisis")}`}
         >
           {#if verTabla}
+            <Graficas
+              data={[
+                ...resultados
+                  .filter((r) => r.prueba === prueba)
+                  .map((r) =>
+                    r.respuesta.respuestas.map((re) =>
+                      re.respuesta === "true" ? 1 : 0
+                    )
+                  )[0],
+              ]}
+            /> -->
             <TablaRespuestas
               respuestas={resultados
                 .filter((r) => r.prueba === prueba)

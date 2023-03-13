@@ -82,6 +82,7 @@
         animated = getAnimated();
         verRespuestas = false;
         resultados = await getResults();
+      //  console.log({resultados})
       }
     } catch (error) {
       console.error(error);
