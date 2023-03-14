@@ -47,23 +47,44 @@
   const openItem = (id, index) => {
     verTabla = id;
   };
+
+  let colors=['text-success','text-primary','text-dark','text-success','text-danger']
+
+  const coloring=(main)=>{
+     let buttons=document.querySelectorAll('.accordion-button');
+     [...buttons].forEach(b=>{
+      let values=b.innerHTML.split("-");
+      let html="";
+      values.forEach((v,index,a)=>{
+          html+=`
+              <span class="${colors[index]} ${index===a.length-1?'fw-bold':''}">${v.trim()}</span>&nbsp;
+          `
+      });
+      b.innerHTML=html;
+     })
+  }
+
+ 
 </script>
 
 <main>
   {#if pruebas && pruebas.length > 0 && Valoraciones.length > 0}
+  <div use:coloring>
     <Accordion>
       {#each pruebas as prueba, index}
         <AccordionItem
           on:toggle={(e) => {
             openItem(e.detail, index);
           }}
-          header={`${prueba} ${gE(prueba, "porcentaje")}% de ${gE(
+          header={`${prueba}-${gE(prueba, "porcentaje")}% de-${gE(
             prueba,
             "total"
-          )} correctas:${gE(prueba, "analisis")}`}
+          )}.-Correctas-${gE(prueba, "analisis")}`}
         >
           {#if verTabla}
             <Graficas
+              {prueba}
+              porcentaje={gE(prueba, "porcentaje")}
               data={[
                 ...resultados
                   .filter((r) => r.prueba === prueba)
@@ -73,7 +94,7 @@
                     )
                   )[0],
               ]}
-            /> -->
+            /> 
             <TablaRespuestas
               respuestas={resultados
                 .filter((r) => r.prueba === prueba)
@@ -91,5 +112,6 @@
         </Alert>
       {/each}
     </Accordion>
+  </div>
   {/if}
 </main>

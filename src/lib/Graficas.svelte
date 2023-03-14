@@ -1,39 +1,55 @@
 <script>
-    import Chart from 'chart.js/auto';
-  import { onDestroy} from 'svelte';
+  import Chart from "chart.js/auto";
+  import { onDestroy } from "svelte";
 
-    let Chart1;
-    let Chart2;
-    export let data=[];
+  let Chart1;
+  let Chart2;
+  export let prueba;
+  export let porcentaje;
+  export let data = [];
 
-    
+  const graph = (canvas, arg) => {
+    arg.chart = new Chart(canvas, {
+      type: arg.type,
+      data: {
+        labels:
+          arg.type === "bar"
+            ? data.map((d, i) => i + 1)
+            : [
+                `${parseInt(porcentaje)} % Correctas`,
+                `${100 - parseInt(porcentaje)} % Incorrectas`,
+              ],
+        datasets: [
+          {
+            label: arg.name,
+            data:
+              arg.type === "bar"
+                ? data
+                : [parseInt(porcentaje), 100 - parseInt(porcentaje)],
+          },
+        ],
+      },
+      scales: {
+        y: {
+          min: -10,
+          max: 10,
+        },
+      },
+    });
+  };
 
-    const graph=(canvas,arg)=>{
-       arg.chart=new Chart(canvas,{
-                type:arg.type,
-                data:{
-                    labels:data.map((d,i)=>i),
-                    datasets:[{
-                            label:arg.name,
-                            data
-                    }]
-                }
-       })
-    }
-
-   onDestroy(()=>{
-    console.log("destruyendo estadsisticas");
-        Chart1&&Chart1.destroy();
-        Chart2&&Chart2.destroy();
-   })
-
+  onDestroy(() => {
+    console.log("destruyendo estadisticas");
+    Chart1 && Chart1.destroy();
+    Chart2 && Chart2.destroy();
+  });
 </script>
 
 <main class="os">
-    <div class="m-md-1 p-md-1 m-lg-2 p-lg-2 m-xl-3 p-xl-3 m-xxl-5 p-xxl-5">
-        <canvas use:graph={{chart:Chart1,type:'bar',name:'Gráfica 1'}} />
-        <canvas use:graph={{chart:Chart2,type:'pie',name:'Gráfica 2'}} />
-    </div>
+  <div class="m-md-1 p-md-1 m-lg-2 p-lg-2 m-xl-3 p-xl-3 m-xxl-5 p-xxl-5">
+    <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} />
+    <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }} />
+  </div>
 </main>
 
 <style>
