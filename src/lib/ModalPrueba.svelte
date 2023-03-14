@@ -313,7 +313,7 @@
           <i class="fa fa-arrow-left" aria-hidden="true" />
         </button>
       </header>
-
+      
       <main class="modal-body">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}

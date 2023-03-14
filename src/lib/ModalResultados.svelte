@@ -189,7 +189,7 @@
           <i class="fa fa-arrow-left" aria-hidden="true" />
         </button>
       </header>
-
+     
       <main class="modal-body">
         <strong class="text-primary">{nombresEstudiante}</strong>
         {#if resultados}
@@ -205,6 +205,7 @@
           </div>
         {/if}
       </main>
+     
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
         <button
           class="btn btn-success bg-gradient bg-opacity-25 rounded-0"

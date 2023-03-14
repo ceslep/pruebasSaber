@@ -14,7 +14,7 @@
       data: {
         labels:
           arg.type === "bar"
-            ? data.map((d, i) => i + 1)
+            ? data.map((d, i) => (i + 1).toString())
             : [
                 `${parseInt(porcentaje)} % Correctas`,
                 `${100 - parseInt(porcentaje)} % Incorrectas`,
@@ -29,12 +29,7 @@
           },
         ],
       },
-      scales: {
-        y: {
-          min: -10,
-          max: 10,
-        },
-      },
+      
     });
   };
 
