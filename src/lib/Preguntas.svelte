@@ -2,7 +2,7 @@
   import { afterUpdate, createEventDispatcher } from "svelte";
   export let PruebaARealizar = [];
 
-  $:console.log(PruebaARealizar)
+  $: console.log(PruebaARealizar);
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
 
@@ -23,122 +23,128 @@
 </script>
 
 <main class="container container-sm container-md">
-  {#if PruebaARealizar.length>0}
-  <ol>
-    {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
-      <li id={`pregunta${index}`}>
-        <div class="text-justify fw-bold text-success">
-          {TextoDeLaPregunta}
-        </div>
-        <hr />
-        <section class="text-center mx-auto">
-          {#if ImagenPregunta && ImagenPregunta.includes("drive")}
-            <img
-              src={`http://drive.google.com/uc?export=view&id=${
-                ImagenPregunta.split("/")[5].split("?")[0]
-              }`}
-              alt="imagenPregunta"
-              class="img-fluid img-width"
-              width="100%"
-              loading="lazy"
-              on:error={errorImg}
-              on:load={loadImg}
-            />
+  {#if PruebaARealizar.length > 0}
+    <ol>
+      {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
+        <li id={`pregunta${index}`}>
+          <div class="text-justify fw-bold text-success">
+            {TextoDeLaPregunta}
+          </div>
+          <hr />
+          <section class="text-center mx-auto">
+            {#if ImagenPregunta && ImagenPregunta.includes("drive")}
+              <img
+                src={`http://drive.google.com/uc?export=view&id=${
+                  ImagenPregunta.split("/")[5].split("?")[0]
+                }`}
+                alt="imagenPregunta"
+                class="img-fluid img-width"
+                width="100%"
+                loading="lazy"
+                on:error={errorImg}
+                on:load={loadImg}
+              />
+            {/if}
+          </section>
+          <br />
+          {#if ContinuacionTextoDeLaPregunta}
+            <p class="text-justify fst-italic text-primary fs-5">
+              {ContinuacionTextoDeLaPregunta}
+            </p>
           {/if}
-        </section>
+          <section>
+            <ul>
+              <input
+                type="hidden"
+                id="infoRespuesta{index}"
+                name="infoRespuesta{index}"
+                value={JSON.stringify({
+                  TextoDeLaPregunta,
+                  RespuestaCorrecta,
+                })}
+              />
+              {#each [RespuestaA, RespuestaB, RespuestaC, RespuestaD] as respuesta, indexRespuesta}
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="respuesta{index}"
+                    id="respuesta{index}{indexRespuesta}"
+                    data-id="respuesta{index}{indexRespuesta}"
+                    data-pregunta={TextoDeLaPregunta.replace(/\n/g, " ")}
+                    data-continuacionpregunta={ContinuacionTextoDeLaPregunta
+                      ? ContinuacionTextoDeLaPregunta.replace(/\n/g, " ")
+                      : " "}
+                    data-textorespuesta={respuesta.replace(/\n/g, " ")}
+                    data-correcta={indexRespuesta ===
+                      letters.indexOf(RespuestaCorrecta)}
+                    value={indexRespuesta ===
+                      letters.indexOf(RespuestaCorrecta)}
+                    data-searchpregunta={(respuesta.length >= 50
+                      ? respuesta
+                          .substring(30, 50)
+                          .trim()
+                          .replaceAll(" ", "1")
+                          .replaceAll(".", "2")
+                          .replaceAll("/", "3")
+                          .replaceAll("+", "4")
+                          .replaceAll("(", "5")
+                          .replaceAll(")", "6")
+                          .replaceAll("-", "7")
+                          .replaceAll(",", "8")
+                          .replaceAll("á", "")
+                          .replaceAll("é", "")
+                          .replaceAll("í", "")
+                          .replaceAll("ó", "")
+                          .replaceAll("ú", "") + indexRespuesta
+                      : respuesta
+                          .substring(0, 5)
+                          .trim()
+                          .replaceAll(" ", "1")
+                          .replaceAll(".", "2")
+                          .replaceAll("/", "3")
+                          .replaceAll("+", "4")
+                          .replaceAll("(", "5")
+                          .replaceAll(")", "6")
+                          .replaceAll("-", "7")
+                          .replaceAll(",", "8")
+                          .replaceAll("á", "")
+                          .replaceAll("é", "")
+                          .replaceAll("í", "")
+                          .replaceAll("ó", "")
+                          .replaceAll("ú", "") + indexRespuesta
+                    )
+                      .split("")
+                      .reverse()
+                      .join("")}
+                    on:click={() => dispatch("clicked", { index })}
+                  />
+                  <li class="text-start">
+                    {#if respuesta.includes("drive")}
+                      {letters[indexRespuesta]}.&nbsp;<img
+                        src={"http://drive.google.com/uc?export=view&id=" +
+                          respuesta.split("/")[5].split("?")[0]}
+                        alt="imagenPregunta"
+                        class="img-fluid img-width-r"
+                        width="100%"
+                        loading="lazy"
+                        on:error={errorImg}
+                      />
+                    {:else}
+                      <div class="fs-5">
+                        {letters[indexRespuesta]}.&nbsp;{respuesta}
+                      </div>
+                    {/if}
+                  </li>
+                </div>
+              {/each}
+            </ul>
+          </section>
+        </li>
         <br />
-        {#if ContinuacionTextoDeLaPregunta}
-          <p class="text-justify fst-italic text-primary fs-5">
-            {ContinuacionTextoDeLaPregunta}
-          </p>
-        {/if}
-        <section>
-          <ul>
-            <input
-              type="hidden"
-              id="infoRespuesta{index}"
-              name="infoRespuesta{index}"
-              value={JSON.stringify({
-                TextoDeLaPregunta,
-                RespuestaCorrecta,
-              })}
-            />
-            {#each [RespuestaA, RespuestaB, RespuestaC, RespuestaD] as respuesta, indexRespuesta}
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="respuesta{index}"
-                  id="respuesta{index}{indexRespuesta}"
-                  data-id="respuesta{index}{indexRespuesta}"
-                  data-pregunta={TextoDeLaPregunta.replace(/\n/g, " ")}
-                  data-continuacionpregunta={ContinuacionTextoDeLaPregunta?ContinuacionTextoDeLaPregunta.replace(/\n/g, " "):" "}
-                  data-textorespuesta={respuesta.replace(/\n/g, " ")}
-                  data-correcta={indexRespuesta ===
-                    letters.indexOf(RespuestaCorrecta)}
-                  value={indexRespuesta === letters.indexOf(RespuestaCorrecta)}
-                  data-searchpregunta={(respuesta.length >= 50
-                    ? respuesta
-                        .substring(30, 50)
-                        .trim()
-                        .replaceAll(" ", "1")
-                        .replaceAll(".", "2")
-                        .replaceAll("/", "3")
-                        .replaceAll("+", "4")
-                        .replaceAll("(", "5")
-                        .replaceAll(")", "6")
-                        .replaceAll("-", "7")
-                        .replaceAll(",", "8")
-                        .replaceAll("á", "")
-                        .replaceAll("é", "")
-                        .replaceAll("í", "")
-                        .replaceAll("ó", "")
-                        .replaceAll("ú", "") + indexRespuesta
-                    : respuesta
-                        .substring(0, 5)
-                        .trim()
-                        .replaceAll(" ", "1")
-                        .replaceAll(".", "2")
-                        .replaceAll("/", "3")
-                        .replaceAll("+", "4")
-                        .replaceAll("(", "5")
-                        .replaceAll(")", "6")
-                        .replaceAll("-", "7")
-                        .replaceAll(",", "8")
-                        .replaceAll("á", "")
-                        .replaceAll("é", "")
-                        .replaceAll("í", "")
-                        .replaceAll("ó", "")
-                        .replaceAll("ú", "") + indexRespuesta
-                  ).split('').reverse().join('')}
-                  on:click={() => dispatch("clicked", { index })}
-                />
-                <li class="text-start">
-                  {#if respuesta.includes("drive")}
-                    {letters[indexRespuesta]}.&nbsp;<img
-                      src={"http://drive.google.com/uc?export=view&id=" +
-                        respuesta.split("/")[5].split("?")[0]}
-                      alt="imagenPregunta"
-                      class="img-fluid img-width-r"
-                      width="100%"
-                      loading="lazy"
-                      on:error={errorImg}
-                    />
-                  {:else}
-                    <div class="fs-5">
-                      {letters[indexRespuesta]}.&nbsp;{respuesta}
-                    </div>
-                  {/if}
-                </li>
-              </div>
-            {/each}
-          </ul>
-        </section>
-      </li>
-      <br />
-      <br />
-    {/each}
-  </ol>
+        <br />
+      {/each}
+    </ol>
   {/if}
 </main>
 

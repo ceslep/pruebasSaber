@@ -3,13 +3,14 @@
   import Prueba from "./lib/Prueba.svelte";
   import ResultadosGenerales from "./lib/ResultadosGenerales.svelte";
   import { loggedin, loggedinDocente } from "./Stores";
+  import Swal from "sweetalert2";
 
   let estudiante = {};
   let docente = {};
 
   const login = (e) => {
     $loggedin = true;
-    $loggedinDocente=!$loggedin
+    $loggedinDocente = !$loggedin;
     estudiante = e.detail.estudiante.data[0];
   };
 
@@ -30,11 +31,24 @@
   <div class="flex-center">
     <Login on:login={login} on:loginDocente={loginDocente} />
   </div>
-{/if}  
+{/if}
 {#if $loggedin}
   <Prueba {estudiante} />
 {:else if $loggedinDocente}
-  <ResultadosGenerales />
+  <ResultadosGenerales
+    on:logout={async () => {
+     
+        // @ts-ignore
+        const { isConfirmed } = await Swal.fire({
+          title: "Desea cerrar sesión",
+          showDenyButton: true,
+          confirmButtonText: "Si",
+          denyButtonText: `No`,
+        });
+        $loggedinDocente = !isConfirmed;
+     
+    }}
+  />
 {/if}
 
 <style>

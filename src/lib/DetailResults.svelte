@@ -12,10 +12,11 @@
       ...resultados.map((r, i, a) => {
         return {
           prueba: r.prueba,
-          total: r.respuesta.respuestas.length,
-          analisis: r.respuesta.respuestas
+          total: r.respuesta?r.respuesta.respuestas.length:0,
+          analisis: r.respuesta?r.respuesta.respuestas
             .map((re) => (re.respuesta === "true" ? 1 : 0))
-            .reduce((a, b) => a + b),
+            .reduce((a, b) => a + b):0,
+          tiempo:r.tiempo  
         };
       }),
     ].map((V) => {
@@ -37,8 +38,8 @@
   const gE = (prueba, key) => {
     return [
       ...Valoraciones.filter((V) => V.prueba === prueba).map((Fv) => {
-        const { total, porcentaje, analisis } = Fv;
-        return { total, porcentaje, analisis };
+        const { total, porcentaje, analisis,tiempo } = Fv;
+        return { total, porcentaje, analisis,tiempo };
       }),
     ][0][key];
   };
@@ -54,10 +55,11 @@
     "text-dark",
     "text-success",
     "text-danger",
+    "text-secondary"
   ];
 
-  const coloring = (main) => {
-    let buttons = document.querySelectorAll(".accordion-button");
+  const coloring = (div) => {
+    let buttons = div.querySelectorAll(".accordion-button");
     [...buttons].forEach((b) => {
       let values = b.innerHTML.split("-");
       let html = "";
@@ -85,7 +87,7 @@
             header={`${prueba}-${gE(prueba, "porcentaje")}% de-${gE(
               prueba,
               "total"
-            )}.-Correctas-${gE(prueba, "analisis")}`}
+            )}.-Correctas-${gE(prueba, "analisis")}-${gE(prueba,"tiempo")}m.`}
           >
             {#if verTabla}
               <Graficas

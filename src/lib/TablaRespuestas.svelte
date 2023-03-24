@@ -27,6 +27,15 @@
       .replaceAll("u2026", "…");
   };
 
+  // @ts-ignore
+  String.prototype.leftStr=function(c){
+    if (this.length <= c) {
+    return this;
+  } else {
+    return this.slice(0, c)+"...";
+  }
+  }
+
   let analisis;
   let total;
 
@@ -48,7 +57,7 @@
     {#each respuestas[0] as { respuesta, textodelapregunta, continuaciontextodelapregunta, textorespuesta }, index}
     <tr>
         <th class="text-center align-middle" scope="row">{index + 1}</th>
-        <td class="text-justify">{textodelapregunta.decodeUnicode()}</td>
+        <td class="text-justify">{textodelapregunta.decodeUnicode().leftStr(100)}</td>
         <td class="text-justify"
           >{continuaciontextodelapregunta.decodeUnicode()}</td
         >

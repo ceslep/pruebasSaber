@@ -1,4 +1,5 @@
 <script>
+	import { _Periodo } from './../Stores.js';
   import ModalPrueba from "./ModalPrueba.svelte";
   import { onMount, afterUpdate } from "svelte";
   import { fade, fly } from "svelte/transition";
@@ -78,22 +79,23 @@
     show={showModalResultados}
     on:close={() => (showModalResultados = false)}
     {estudiante}
-    {periodo}
+    periodo={$_Periodo}
   />
 {/if}
 
-{#if showModalPrueba}
-  <ModalPrueba
-    show={showModalPrueba}
-    title={prueba}
-    {icon}
-    on:close={() => (showModalPrueba = false)}
-    {PruebaARealizar}
-    {estudiante}
-    {prueba}
-    {periodo}
-  />
-{/if}
+
+  {#if showModalPrueba}
+    <ModalPrueba
+      show={showModalPrueba}
+      title={prueba}
+      {icon}
+      on:close={() => (showModalPrueba = false)}
+      {PruebaARealizar}
+      {estudiante}
+      {prueba}
+      {periodo}
+    />
+  {/if}
   <Pie sede={estudiante.sede} grupo={estudiante.grupo} />
 </main>
 
