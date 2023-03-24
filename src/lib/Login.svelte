@@ -1,8 +1,8 @@
 <script>
-// @ts-nocheck
+  // @ts-nocheck
 
-  import { URL,_Estudiante } from "./../Stores.js";
- 
+  import { URL, _Estudiante,_Docente } from "./../Stores.js";
+
   // @ts-nocheck
 
   import {
@@ -21,39 +21,61 @@
   } from "sveltestrap";
   import { createEventDispatcher } from "svelte";
 
+  const dispatch = createEventDispatcher();
 
-const dispatch = createEventDispatcher();
+  let txtSwitch="Estudiante";
+
+  const chsw=(e)=>{
+    let {checked}=e.target;
+    txtSwitch=checked?"Docente":"Estudiante"  
+  }
+
+  let login="login.php";
+
+  let Docente;
+  let Estudiante;
+
+  $:login=txtSwitch==="Estudiante"?"login.php":"loginDocentes.php";
 
   let loginspn = false;
+
+  $:Estudiante=txtSwitch==="Estudiante";
+  $:Docente=txtSwitch==="Docente";
 
   const loginet = async (e) => {
     e.preventDefault();
     loginspn = !loginspn;
-    try{
-    let estudiante = await (
-      await fetch(`${$URL}login.php`, {
-        method: "POST",
-        body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
-      })
-    ).json();
-    if (!estudiante.acceso)
-     Swal.fire({
-      icon:"error",
-      text:"Acceso Denegado"
-     });
-    else {
-      $_Estudiante=estudiante;
-    dispatch("login",{estudiante})
+    try {
+      let info = await (
+        await fetch(`${$URL}${login}`, {
+          method: "POST",
+          body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
+        })
+      ).json();
+      if (!info.acceso)
+        Swal.fire({
+          icon: "error",
+          text: "Acceso Denegado",
+        });
+      else {
+        if (Estudiante){
+        $_Estudiante = info;
+        dispatch("login", { estudiante:info });
+        }else if (Docente){
+          $_Docente=info;
+          dispatch("loginDocente", { docente:info });
+        }
+        
+      }
+      loginspn = !loginspn;
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "Ha ocurrido un error, revise su conexión a internet",
+      });
+      loginspn = !loginspn;
     }
-    loginspn = !loginspn;
-  }catch(error){
-    Swal.fire({
-      icon:"error",
-      text:"Ha ocurrdio un error, revise su conexión a internet"
-    })
-    loginspn = !loginspn;
-  }
-  }
+  };
 </script>
 
 <section class="grid">
@@ -66,6 +88,9 @@ const dispatch = createEventDispatcher();
         <img width="20%" src="./escudo.png" alt="" />
         <CardSubtitle>Instituto Guática</CardSubtitle>
         <CardText>Complete los datos para Ingresar</CardText>
+        <FormGroup>
+          <Input id="c3" type="switch" label={txtSwitch} on:change={chsw} />
+        </FormGroup>
         <FormGroup>
           <Input
             type="text"
@@ -93,7 +118,9 @@ const dispatch = createEventDispatcher();
         </Button>
       </CardBody>
     </Form>
-    <CardFooter class="text-center">Proyecto Pruebas Saber {new Date().getFullYear()}</CardFooter>
+    <CardFooter class="text-center"
+      >Proyecto Pruebas Saber {new Date().getFullYear()}</CardFooter
+    >
   </Card>
 </section>
 

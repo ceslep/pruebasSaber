@@ -1,13 +1,22 @@
 <script>
   import Login from "./lib/Login.svelte";
   import Prueba from "./lib/Prueba.svelte";
-  import { loggedin } from "./Stores";
+  import ResultadosGenerales from "./lib/ResultadosGenerales.svelte";
+  import { loggedin, loggedinDocente } from "./Stores";
 
   let estudiante = {};
+  let docente = {};
 
   const login = (e) => {
     $loggedin = true;
+    $loggedinDocente=!$loggedin
     estudiante = e.detail.estudiante.data[0];
+  };
+
+  const loginDocente = (e) => {
+    $loggedinDocente = true;
+    $loggedin = !$loggedinDocente;
+    docente = e.detail.docente.data[0];
   };
 </script>
 
@@ -17,12 +26,15 @@
   </title>
 </svelte:head>
 
-{#if !$loggedin}
+{#if !$loggedin && !$loggedinDocente}
   <div class="flex-center">
-    <Login on:login={login} />
+    <Login on:login={login} on:loginDocente={loginDocente} />
   </div>
-{:else}
+{/if}  
+{#if $loggedin}
   <Prueba {estudiante} />
+{:else if $loggedinDocente}
+  <ResultadosGenerales />
 {/if}
 
 <style>
@@ -32,7 +44,7 @@
   }
 
   .flex-center {
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 90vh;
