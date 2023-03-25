@@ -44,9 +44,12 @@
 </script>
 
 <div class="fixed-top">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-success bg-gradient bg-opacity-75">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#!"><span class="fs-7">{nombres}</span></a>
+      
+      <a class="navbar-brand" href="#!">
+        
+        <span class="text-start fs-7 text-light fws-bold">{nombres}</span></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -90,7 +93,7 @@
           <li><hr class="dropdown-divider" /></li>
           <li class="nav-item text-start">
             <a
-              class="nav-link text-success"
+              class="nav-link text-dark"
               aria-current="page"
               href="#!"
               data-bs-toggle="collapse"
@@ -107,6 +110,6 @@
 
 <style>
   .fs-7 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 </style>

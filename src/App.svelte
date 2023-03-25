@@ -3,7 +3,8 @@
   import Prueba from "./lib/Prueba.svelte";
   import ResultadosGenerales from "./lib/ResultadosGenerales.svelte";
   import { loggedin, loggedinDocente } from "./Stores";
-  import Swal from "sweetalert2";
+  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import "sweetalert2/src/sweetalert2.scss";
 
   let estudiante = {};
   let docente = {};
@@ -37,16 +38,14 @@
 {:else if $loggedinDocente}
   <ResultadosGenerales
     on:logout={async () => {
-     
-        // @ts-ignore
-        const { isConfirmed } = await Swal.fire({
-          title: "Desea cerrar sesión",
-          showDenyButton: true,
-          confirmButtonText: "Si",
-          denyButtonText: `No`,
-        });
-        $loggedinDocente = !isConfirmed;
-     
+      // @ts-ignore
+      const { isConfirmed } = await Swal.fire({
+        title: "Desea cerrar sesión",
+        showDenyButton: true,
+        confirmButtonText: "Si",
+        denyButtonText: `No`,
+      });
+      $loggedinDocente = !isConfirmed;
     }}
   />
 {/if}

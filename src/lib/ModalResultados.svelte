@@ -8,14 +8,15 @@
   } from "svelte";
   import "animate.css";
   import DetailResults from "./DetailResults.svelte";
+  import Modal  from 'bootstrap/js/dist/modal';
 
   const dispatch = createEventDispatcher();
 
-  let Modal;
+  let _Modal;
   let guardando = false;
   const modal = (el) => {
     // @ts-ignore
-    Modal = new bootstrap.Modal(el);
+    _Modal = new Modal(el);
   };
 
   let animates = [
@@ -91,8 +92,8 @@
 
   onDestroy(() => {
     console.log("destruyendo");
-    Modal.dispose;
-    Modal = undefined;
+    _Modal.dispose;
+    _Modal = undefined;
     dispatch("close");
   });
 
@@ -101,9 +102,9 @@
   export let periodo;
   let animated;
 
-  $: if (Modal) {
-    if (show) Modal.show();
-    else Modal.hide();
+  $: if (_Modal) {
+    if (show) _Modal.show();
+    else _Modal.hide();
   }
 
   let PruebaCodificada;
