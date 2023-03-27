@@ -28,7 +28,7 @@
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
         <li id={`pregunta${index}`}>
           <div class="text-justify fw-bold text-success">
-            {TextoDeLaPregunta}
+            {TextoDeLaPregunta.replace(/"/g, '')}
           </div>
           <hr />
           <section class="text-center mx-auto">
@@ -49,7 +49,7 @@
           <br />
           {#if ContinuacionTextoDeLaPregunta}
             <p class="text-justify fst-italic text-primary fs-5">
-              {ContinuacionTextoDeLaPregunta}
+              {ContinuacionTextoDeLaPregunta.replace(/"/g, '')}
             </p>
           {/if}
           <section>
@@ -59,8 +59,8 @@
                 id="infoRespuesta{index}"
                 name="infoRespuesta{index}"
                 value={JSON.stringify({
-                  TextoDeLaPregunta,
-                  RespuestaCorrecta,
+                  TextoDeLaPregunta:TextoDeLaPregunta.replace(/"/g, ''),
+                  RespuestaCorrecta:RespuestaCorrecta.replace(/"/g, ''),
                 })}
               />
               {#each [RespuestaA, RespuestaB, RespuestaC, RespuestaD] as respuesta, indexRespuesta}
@@ -71,9 +71,9 @@
                     name="respuesta{index}"
                     id="respuesta{index}{indexRespuesta}"
                     data-id="respuesta{index}{indexRespuesta}"
-                    data-pregunta={TextoDeLaPregunta.replace(/\n/g, " ")}
+                    data-pregunta={TextoDeLaPregunta.replace(/\n/g, " ").replace(/"/g, '')}
                     data-continuacionpregunta={ContinuacionTextoDeLaPregunta
-                      ? ContinuacionTextoDeLaPregunta.replace(/\n/g, " ")
+                      ? ContinuacionTextoDeLaPregunta.replace(/\n/g, " ").replace(/"/g, '')
                       : " "}
                     data-textorespuesta={respuesta.replace(/\n/g, " ")}
                     data-correcta={indexRespuesta ===

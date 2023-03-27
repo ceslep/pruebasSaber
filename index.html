@@ -30,14 +30,11 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script>
     document.addEventListener('readystatechange', (event) => {
-    //  console.log(document.readyState);
       if (document.readyState === 'complete') {
         document.querySelector(".containerLoad").classList.add("d-none");
         document.getElementById("app").style.display = "block";
       }
     });
-
-   // console.log(document.readyState);
   </script>
   <style>
     .containerLoad {

@@ -151,7 +151,7 @@
 
   let nombresEstudiante;
   let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.acceso?$_Estudiante.data[0]:{apellido1:"",apellido2:"",nombre1:"",nombre2:""};
-  $: nombresEstudiante = $_Estudiante.acceso?`${apellido1} ${apellido2} ${nombre1} ${nombre2}`:estudiante.nombres;
+  $: nombresEstudiante = $_Estudiante.acceso?`${apellido1} ${apellido2?apellido2:""} ${nombre1} ${nombre2?nombre2:""}`:estudiante.nombres;
 </script>
 
 <article
