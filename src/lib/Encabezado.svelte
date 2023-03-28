@@ -2,6 +2,8 @@
   import { loggedin } from "./../Stores.js";
   import { createEventDispatcher, onMount } from "svelte";
   import { Spinner } from "sveltestrap";
+  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import "sweetalert2/src/sweetalert2.scss";
 
   export let linkPruebas = [];
   const dispatch = createEventDispatcher();

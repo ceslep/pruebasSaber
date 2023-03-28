@@ -1,6 +1,6 @@
 {
   "name": "Pruebas Saber",
-  "start_url": "https://app.iedeoccidente.com/saber/",
+  "start_url": "https://ceslep.github.io/saberie/",
   "display": "standalone",
   "scope": "./",
   "theme_color": "#4ff635",
