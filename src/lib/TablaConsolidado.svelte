@@ -51,7 +51,7 @@
 
 <main>
   {#if resTabla && resTabla.length > 0}
-    <Table rows={resTabla} let:row striped hover bordered>
+    <Table rows={resTabla} let:row striped hover bordered size="sm" responsive>
       <Column header="Nucleo Común" width="8rem">
         {row.nucleo}
       </Column>
