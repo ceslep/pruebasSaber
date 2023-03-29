@@ -22,7 +22,7 @@
   };
 </script>
 
-<main class="container container-sm container-md">
+<main class="container-fluid">
   {#if PruebaARealizar.length > 0}
     <ol>
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
@@ -151,15 +151,13 @@
 <style>
   main {
     display: grid;
-    width: 70%;
+    width: 10%;
     justify-content: center;
-    margin: 0 auto;
+    /* margin: 0 auto; */
   }
 
   /* Establece el ancho del elemento en 100% por defecto */
-  main {
-    width: 100%;
-  }
+
 
   /* Media query para pantallas entre 720px y 919px */
   @media screen and (min-width: 720px) and (max-width: 919px) {
@@ -190,7 +188,7 @@
   }
 
   ul {
-    min-width: 300px;
+    min-width: 500px;
     max-width: 500px;
     text-align: start;
     justify-content: center;

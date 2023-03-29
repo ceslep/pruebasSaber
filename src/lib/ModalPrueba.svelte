@@ -302,7 +302,7 @@
     <div class="modal-content">
       <header class="modal-header bg-warning bg-gradient bg-opacity-25">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          <span class="fs-6">{@html icon} {title} {progreso}</span>
+          <span class="fs-6">{@html icon} {title} {progreso?progreso:""}</span>
         </h1>
         <button
           type="button"
