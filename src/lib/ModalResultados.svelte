@@ -194,6 +194,7 @@
       <main class="modal-body">
         <strong class="text-primary">{nombresEstudiante}</strong>
         {#if resultados}
+        
           <DetailResults
             pruebas={resultados.map((r) => r.prueba)}
             {resultados}

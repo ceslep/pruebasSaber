@@ -1,5 +1,5 @@
 <script>
-  import { URL } from "./../Stores.js";
+  import { loggedin, URL } from "./../Stores.js";
   import Preguntas from "./Preguntas.svelte";
   import {
     onMount,
@@ -106,6 +106,10 @@
           // @ts-ignore
           let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
           let el = document.querySelector(srel);
+          if (!el){
+            srel = `[data-searchpregunta="xx${res.searchpregunta}"]`;
+            el = document.querySelector(srel);
+          }
           // @ts-ignore
           el.value = true;
           // @ts-ignore
@@ -324,6 +328,7 @@
           {/if}
         </form>
       </main>
+      {#if $loggedin}
       <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
         <button class="btn btn-warning rounded-0" on:click={enviar}
           ><i class="fa-solid fa-cloud-arrow-up" />
@@ -351,6 +356,7 @@
           ><i class="fa-solid fa-circle-xmark" />
         </button>
       </footer>
+      {/if}
     </div>
   </div>
 </article>

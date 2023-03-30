@@ -2,7 +2,7 @@
   // @ts-nocheck
 
   import { URL, _Estudiante,_Docente } from "./../Stores.js";
-  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
 
   // @ts-nocheck

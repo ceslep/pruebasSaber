@@ -80,7 +80,7 @@
                       letters.indexOf(RespuestaCorrecta)}
                     value={indexRespuesta ===
                       letters.indexOf(RespuestaCorrecta)}
-                    data-searchpregunta={(respuesta.length >= 50
+                    data-searchpregunta={"xx"+(respuesta.length >= 50
                       ? respuesta
                           .substring(30, 50)
                           .trim()
@@ -96,6 +96,10 @@
                           .replaceAll("é", "")
                           .replaceAll("í", "")
                           .replaceAll("ó", "")
+                          .replaceAll("$", "")
+                          .replaceAll("$", "")
+                          .replaceAll(/\n/g, "")
+                          .replaceAll("=", "")
                           .replaceAll("ú", "") + indexRespuesta
                       : respuesta
                           .substring(0, 5)
@@ -112,6 +116,9 @@
                           .replaceAll("é", "")
                           .replaceAll("í", "")
                           .replaceAll("ó", "")
+                          .replaceAll("$", "")
+                          .replaceAll(/\n/g, "")
+                          .replaceAll("=", "")
                           .replaceAll("ú", "") + indexRespuesta
                     )
                       .split("")
@@ -153,7 +160,7 @@
     display: grid;
     width: 10%;
     justify-content: center;
-    /* margin: 0 auto; */
+     margin: 0 auto; 
   }
 
   /* Establece el ancho del elemento en 100% por defecto */

@@ -4,7 +4,7 @@
   import { _Docente, URL } from "./../Stores.js";
   import ModalCrearPreguntas from "./CrearPreguntas/ModalCrearPreguntas.svelte";
   import ItemrespuestaGrados from "./ItemrespuestaGrados.svelte";
-  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
 
   const dispatch = createEventDispatcher();
@@ -34,7 +34,7 @@
     (a, b) => b - a
   );
 
-  $: console.log({ Grupos });
+  $: if (Grupos.length>0) console.log({ Grupos });
 
   const reload = async () => {
     resultados = [];

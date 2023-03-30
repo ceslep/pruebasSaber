@@ -1,3 +1,14 @@
+<script context="module">
+  export async  function _getPruebas  (URL,Nivel,periodo) {
+    console.log({URL,Nivel,periodo})
+    let response = await fetch(`${URL}getPruebas.php`, {
+      method: "POST",
+      body: JSON.stringify({ Nivel, periodo }),
+    });
+    return await response.json();
+  };
+</script>
+
 <script>
 	import { _Periodo } from './../Stores.js';
   import ModalPrueba from "./ModalPrueba.svelte";
@@ -18,7 +29,7 @@
 
   let animated;
 
-  let periodo = 1;
+  let periodo = $_Periodo;
 
   onMount(() => {
     consultando = true;
@@ -27,11 +38,13 @@
   });
 
   const getPruebas = async (Nivel) => {
-    let response = await fetch(`${$URL}getPruebas.php`, {
+
+    return await _getPruebas($URL,Nivel,periodo);
+    /* let response = await fetch(`${$URL}getPruebas.php`, {
       method: "POST",
       body: JSON.stringify({ Nivel, periodo }),
     });
-    return await response.json();
+    return await response.json(); */
   };
 
   afterUpdate(async () => {
