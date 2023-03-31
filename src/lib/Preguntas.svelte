@@ -6,6 +6,7 @@
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
   const corrincor = () => {
+    if ($loggedin) return
     setTimeout(() => {
       console.clear();
       let inputs = document.querySelectorAll(".form-check-input");
@@ -49,7 +50,7 @@
     <ol>
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
         <li id={`pregunta${index}`}>
-          <div class="text-justify fw-bold text-success mx-5">
+          <div class="text-justify fw-bold text-success mx-5 px-5">
             {TextoDeLaPregunta.replace(/"/g, "")}
           </div>
           <hr />
@@ -70,7 +71,7 @@
           </section>
           <br />
           {#if ContinuacionTextoDeLaPregunta}
-            <p class="text-justify fst-italic text-primary fs-5 mx-5">
+            <p class="text-justify fst-italic text-primary fs-5 mx-5 px-5">
               {ContinuacionTextoDeLaPregunta.replace(/"/g, "")}
             </p>
           {/if}
@@ -88,7 +89,7 @@
               {#each [RespuestaA, RespuestaB, RespuestaC, RespuestaD] as respuesta, indexRespuesta}
                 <div class="form-check form-check">
                   <input
-                    class="form-check-input"
+                    class="form-check-input mx-1"
                     type="radio"
                     name="respuesta{index}"
                     id="respuesta{index}{indexRespuesta}"

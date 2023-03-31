@@ -335,7 +335,7 @@ Latest commit 01cf6c3 12 hours ago
         </button>
       </header>
       
-      <main class="modal-body container">
+      <main class="modal-body container-fluid">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />

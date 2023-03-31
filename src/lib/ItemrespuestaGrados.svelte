@@ -113,7 +113,7 @@
   >
   {#if Ordenados.length === 0}
     {#if Puntajes.length > 0}
-      <Table rows={estudiantes} let:row>
+      <Table rows={estudiantes} let:row responsive>
         <Column header="Identificación">
           <a href="#!">{row}</a>
         </Column>
@@ -156,7 +156,7 @@
       </Table>
     {/if}
   {:else}
-    <Table rows={Ordenados} let:row>
+    <Table rows={Ordenados} let:row responsive>
       <Column header="Identificación">
         <a href="#!">{row.identificacion}</a>
       </Column>
