@@ -84,6 +84,7 @@
   let prueba;
   let Pruebas=[];
   let PruebaARealizar=[];
+  
   const verPrueba=async (prb)=>{
    estudiante.identificacion=resultados[resultados.findIndex(res=>res.prueba===prb)].estudiante;
    estudiante.nivel=resultados[resultados.findIndex(res=>res.prueba===prb)].Nivel;

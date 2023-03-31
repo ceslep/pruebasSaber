@@ -9,7 +9,7 @@
   } from "svelte";
   import "animate.css";
   import Modal  from 'bootstrap/js/dist/modal';
-  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
 
   const dispatch = createEventDispatcher();
@@ -321,7 +321,7 @@
         </button>
       </header>
       
-      <main class="modal-body">
+      <main class="modal-body container">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />

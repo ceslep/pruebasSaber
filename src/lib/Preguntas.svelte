@@ -6,10 +6,36 @@
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
 
+const corrincor=()=>{
+  setTimeout(() => {
+      console.clear();
+      let inputs = document.querySelectorAll(".form-check-input");
+      inputs.forEach((input, i) => {
+        // @ts-ignore
+        if (input.checked && input.dataset.correcta==="false") {
+          // @ts-ignore
+          input.nextElementSibling.style.border = "2px dotted red";
+           // @ts-ignore
+          input.nextElementSibling.style.color = "red";
+        }
+         // @ts-ignore
+        if (input.dataset.correcta==="true") {
+           // @ts-ignore
+          input.nextElementSibling.style.border = "2px solid green";
+           // @ts-ignore
+          input.nextElementSibling.style.color = "green";
+           // @ts-ignore
+          input.nextElementSibling.style.fontWight="900";
+        }
+      });
+    }, 2000);
+}
+
   afterUpdate(() => {
     for (var i = 0; i < document.forms.length; i++) {
       document.forms[i].reset();
     }
+    corrincor();
   });
 
   function errorImg(img) {
@@ -22,12 +48,12 @@
   };
 </script>
 
-<main class="container-fluid">
+<main class="container">
   {#if PruebaARealizar.length > 0}
     <ol>
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
         <li id={`pregunta${index}`}>
-          <div class="text-justify fw-bold text-success">
+          <div class="text-justify fw-bold text-success mx-5">
             {TextoDeLaPregunta.replace(/"/g, '')}
           </div>
           <hr />
@@ -38,7 +64,7 @@
                   ImagenPregunta.split("/")[5].split("?")[0]
                 }`}
                 alt="imagenPregunta"
-                class="img-fluid img-width"
+                class="img-fluid img-width mx-1"
                 width="100%"
                 loading="lazy"
                 on:error={errorImg}
@@ -48,7 +74,7 @@
           </section>
           <br />
           {#if ContinuacionTextoDeLaPregunta}
-            <p class="text-justify fst-italic text-primary fs-5">
+            <p class="text-justify fst-italic text-primary fs-5 mx-5">
               {ContinuacionTextoDeLaPregunta.replace(/"/g, '')}
             </p>
           {/if}
@@ -160,7 +186,7 @@
     display: grid;
     width: 10%;
     justify-content: center;
-     margin: 0 auto; 
+     margin:10px auto; 
   }
 
   /* Establece el ancho del elemento en 100% por defecto */
@@ -206,5 +232,6 @@
 
   .text-justify {
     text-align: justify;
+    margin: 0;
   }
 </style>
