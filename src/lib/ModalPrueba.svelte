@@ -1,34 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@ceslep 
-ceslep
-/
-pruebasSaber
-Public
-Cannot fork because you own this repository and are not a member of any organizations.
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-pruebasSaber/src/lib/ModalPrueba.svelte
-@ceslep
-ceslep argladoVisualizacionPreguntas
-Latest commit 01cf6c3 12 hours ago
- History
- 1 contributor
-362 lines (343 sloc)  9.78 KB
-
 <script>
   import { loggedin, URL } from "./../Stores.js";
   import Preguntas from "./Preguntas.svelte";
@@ -335,7 +304,7 @@ Latest commit 01cf6c3 12 hours ago
         </button>
       </header>
       
-      <main class="modal-body container-fluid">
+      <main class="modal-body container">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />

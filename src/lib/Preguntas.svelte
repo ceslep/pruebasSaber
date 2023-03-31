@@ -5,31 +5,32 @@
   $: console.log(PruebaARealizar);
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
-  const corrincor = () => {
-    if ($loggedin) return
-    setTimeout(() => {
+
+const corrincor=()=>{
+  setTimeout(() => {
       console.clear();
       let inputs = document.querySelectorAll(".form-check-input");
       inputs.forEach((input, i) => {
         // @ts-ignore
-        if (input.checked && input.dataset.correcta === "false") {
+        if (input.checked && input.dataset.correcta==="false") {
           // @ts-ignore
-          input.nextElementSibling.style.border = "3px dotted red";
-          // @ts-ignore
+          input.nextElementSibling.style.border = "2px dotted red";
+           // @ts-ignore
           input.nextElementSibling.style.color = "red";
         }
-        // @ts-ignore
-        if (input.dataset.correcta === "true") {
-          // @ts-ignore
-          input.nextElementSibling.style.border = "3px solid green";
-          // @ts-ignore
+         // @ts-ignore
+        if (input.dataset.correcta==="true") {
+           // @ts-ignore
+          input.nextElementSibling.style.border = "2px solid green";
+           // @ts-ignore
           input.nextElementSibling.style.color = "green";
-          // @ts-ignore
-          input.nextElementSibling.style.fontWight = "900";
+           // @ts-ignore
+          input.nextElementSibling.style.fontWight="900";
         }
       });
     }, 2000);
-  };
+}
+
   afterUpdate(() => {
     for (var i = 0; i < document.forms.length; i++) {
       document.forms[i].reset();
@@ -45,13 +46,13 @@
   };
 </script>
 
-<main class="container {!$loggedin?"bg-info bg-gradient bg-opacity-25":""}">
+<main class="container">
   {#if PruebaARealizar.length > 0}
     <ol>
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
         <li id={`pregunta${index}`}>
-          <div class="text-justify fw-bold text-success mx-5 px-5">
-            {TextoDeLaPregunta.replace(/"/g, "")}
+          <div class="text-justify fw-bold text-success mx-5">
+            {TextoDeLaPregunta.replace(/"/g, '')}
           </div>
           <hr />
           <section class="text-center mx-auto">
@@ -71,8 +72,8 @@
           </section>
           <br />
           {#if ContinuacionTextoDeLaPregunta}
-            <p class="text-justify fst-italic text-primary fs-5 mx-5 px-5">
-              {ContinuacionTextoDeLaPregunta.replace(/"/g, "")}
+            <p class="text-justify fst-italic text-primary fs-5 mx-5">
+              {ContinuacionTextoDeLaPregunta.replace(/"/g, '')}
             </p>
           {/if}
           <section>
@@ -190,7 +191,7 @@
     display: grid;
     width: 10%;
     justify-content: center;
-    margin: 0 auto;
+     margin:10px auto; 
   }
 
   @media screen and (max-width: 520px) {
