@@ -7,6 +7,7 @@
   let letters = ["A", "B", "C", "D"];
 
 const corrincor=()=>{
+  
   setTimeout(() => {
       console.clear();
       let inputs = document.querySelectorAll(".form-check-input");
