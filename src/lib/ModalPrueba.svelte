@@ -1,3 +1,34 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@ceslep 
+ceslep
+/
+pruebasSaber
+Public
+Cannot fork because you own this repository and are not a member of any organizations.
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+pruebasSaber/src/lib/ModalPrueba.svelte
+@ceslep
+ceslep argladoVisualizacionPreguntas
+Latest commit 01cf6c3 12 hours ago
+ History
+ 1 contributor
+362 lines (343 sloc)  9.78 KB
+
 <script>
   import { loggedin, URL } from "./../Stores.js";
   import Preguntas from "./Preguntas.svelte";
@@ -9,18 +40,15 @@
   } from "svelte";
   import "animate.css";
   import Modal  from 'bootstrap/js/dist/modal';
-  import Swal from "sweetalert2/dist/sweetalert2.js";
+  import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
-
   const dispatch = createEventDispatcher();
-
   let _Modal;
   let guardando = false;
   const modal = (el) => {
     // @ts-ignore
     _Modal = new Modal(el);
   };
-
   let animates = [
     "animate__fadeInRight",
     "animate__backInDown",
@@ -67,14 +95,11 @@
     "animate__slideInRight",
     "animate__slideInUp",
   ];
-
   const getAnimated = () => {
     return animates[Math.floor(Math.random() * animates.length)];
   };
-
   let inicio;
   let fin;
-
   const generarHora = () => {
     let horas = "" + new Date().getHours();
     let minutos = "" + new Date().getMinutes();
@@ -86,7 +111,6 @@
   };
   let Total;
   let rendered=true;
-
   onMount(async () => {
     inicio = generarHora();
   });
@@ -123,14 +147,12 @@
       // console.error(error)
     }
   });
-
   onDestroy(() => {
     console.log("destruyendo");
     _Modal.dispose;
     _Modal = undefined;
     dispatch("close");
   });
-
   export let show = false;
   export let title = "";
   export let icon = "";
@@ -140,12 +162,10 @@
   export let periodo;
   let animated;
   let progreso;
-
   $: if (_Modal) {
     if (show) _Modal.show();
     else _Modal.hide();
   }
-
   let form;
   let C;
   const generarJSON = () => {
@@ -167,11 +187,9 @@
         C++;
       }
     }
-
     infoRespuestas.respuestas = [...resPuestasPrueba];
     return infoRespuestas;
   };
-
   const getParcial = () => {
     let c = 0;
     for (let i = 0; i < form.elements.length; i++) {
@@ -181,7 +199,6 @@
     }
     return c;
   };
-
   const enviar = async () => {
     // @ts-ignore
     Swal.fire({
@@ -233,7 +250,6 @@
         text: `Ha habido un error al guardar la prueba de ${prueba}`,
       });
   };
-
   const compartir = () => {
     if (navigator.share) {
       navigator
@@ -251,7 +267,6 @@
       Swal.fire({ text: "No se puede compartir" });
     }
   };
-
   const getResults = async () => {
     let response = await fetch(`${$URL}getRespuestas.php`, {
       method: "POST",
@@ -264,7 +279,6 @@
     return await response.json();
   };
   // array para almacenar las fracciones
-
   const manageClicked = (e) => {
     // @ts-ignore
     const Toast = Swal.mixin({
@@ -304,7 +318,7 @@
             "
   >
     <div class="modal-content">
-      <header class="modal-header bg-warning bg-gradient bg-opacity-25">
+      <header class="modal-header {$loggedin?"bg-warning":"bg-primary"} bg-gradient {$loggedin?"bg-opacity-25":"bg-opacity-75"}">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
           <span class="fs-6">{@html icon} {title} {progreso?progreso:""}</span>
         </h1>
@@ -321,7 +335,7 @@
         </button>
       </header>
       
-      <main class="modal-body">
+      <main class="modal-body container">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />
