@@ -10,6 +10,7 @@ const corrincor=()=>{
   
   setTimeout(() => {
       console.clear();
+      if($loggedin) return;
       let inputs = document.querySelectorAll(".form-check-input");
       inputs.forEach((input, i) => {
         // @ts-ignore
