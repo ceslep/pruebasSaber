@@ -16,7 +16,7 @@
       });
       return await response.json();
     } catch (error) {
-      Swal.fire({
+      await Swal.fire({
         icon: "error",
         text: "Ha ocurrido un error, revise su conexión a internet",
       });

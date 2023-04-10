@@ -8,9 +8,10 @@
     afterUpdate,
   } from "svelte";
   import "animate.css";
-  import Modal  from 'bootstrap/js/dist/modal';
+  import Modal from "bootstrap/js/dist/modal";
   import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
+  import { Spinner } from "sveltestrap";
   const dispatch = createEventDispatcher();
   let _Modal;
   let guardando = false;
@@ -79,14 +80,14 @@
     return `${horas}:${minutos}:${segundos}`;
   };
   let Total;
-  let rendered=true;
+  let rendered = true;
   onMount(async () => {
     inicio = generarHora();
   });
   afterUpdate(async () => {
-    if(rendered){
-      rendered=false;
-    animated = getAnimated();
+    if (rendered) {
+      rendered = false;
+      animated = getAnimated();
     }
     let inputs = document.querySelectorAll(".form-check-input");
     Total = inputs.length / 4;
@@ -99,7 +100,7 @@
           // @ts-ignore
           let srel = `[data-searchpregunta="${res.searchpregunta}"]`;
           let el = document.querySelector(srel);
-          if (!el){
+          if (!el) {
             srel = `[data-searchpregunta="xx${res.searchpregunta}"]`;
             el = document.querySelector(srel);
           }
@@ -109,9 +110,9 @@
           el.checked = true;
         });
       }
-      progreso= `Preguntas ${getParcial()} de ${Total} ${Math.floor(
+      progreso = `Preguntas ${getParcial()} de ${Total} ${Math.floor(
         (getParcial() * 100) / Total
-      )}%`
+      )}%`;
     } catch (error) {
       // console.error(error)
     }
@@ -149,9 +150,10 @@
         Respuesta.respuesta = form.elements[i].dataset.correcta;
         Respuesta.searchpregunta = form.elements[i].dataset.searchpregunta;
         Respuesta.textodelapregunta = form.elements[i].dataset.pregunta;
-        Respuesta.continuaciontextodelapregunta = form.elements[i].dataset.continuacionpregunta;
+        Respuesta.continuaciontextodelapregunta =
+          form.elements[i].dataset.continuacionpregunta;
         Respuesta.textorespuesta = form.elements[i].dataset.textorespuesta;
-        console.log(Respuesta)
+        console.log(Respuesta);
         resPuestasPrueba = [...resPuestasPrueba, Respuesta];
         C++;
       }
@@ -212,8 +214,8 @@
         text: `Respuestas a la prueba de ${prueba} almacenadas correctamente`,
       });
     // @ts-ignore
-    else
     // @ts-ignore
+    else
       Swal.fire({
         icon: "error",
         text: `Ha habido un error al guardar la prueba de ${prueba}`,
@@ -278,7 +280,7 @@
   aria-hidden="true"
 >
   <div
-    class="modal-dialog 
+    class="modal-dialog
       modal-dialog-scrollable
       modal-fullscreen-md-down
       modal-dialog-centered
@@ -287,9 +289,17 @@
             "
   >
     <div class="modal-content">
-      <header class="modal-header {$loggedin?"bg-warning":"bg-primary"} bg-gradient {$loggedin?"bg-opacity-25":"bg-opacity-75"}">
+      <header
+        class="modal-header {$loggedin
+          ? 'bg-warning'
+          : 'bg-primary'} bg-gradient {$loggedin
+          ? 'bg-opacity-25'
+          : 'bg-opacity-75'}"
+      >
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          <span class="fs-6">{@html icon} {title} {progreso?progreso:""}</span>
+          <span class="fs-6"
+            >{@html icon} {title} {progreso ? progreso : ""}</span
+          >
         </h1>
         <button
           type="button"
@@ -303,42 +313,46 @@
           <i class="fa fa-arrow-left" aria-hidden="true" />
         </button>
       </header>
-      
+
       <main class="modal-body container">
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />
+            {:else}
+            <div class="d-flex justify-content-center">
+            <Spinner size="md" color="primary"/>
+          </div>
           {/if}
         </form>
       </main>
       {#if $loggedin}
-      <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
-        <button class="btn btn-warning rounded-0" on:click={enviar}
-          ><i class="fa-solid fa-cloud-arrow-up" />
-          {#if guardando}
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          {/if}
-        </button>
-        <button class="btn btn-danger bg-gradient bg-opacity-25 rounded-0"
-          ><i class="fa-solid fa-floppy-disk" />
-        </button>
-        <button
-          class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
-          on:click={compartir}
-          ><i class="fa-solid fa-share-nodes" />
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary rounded-0"
-          data-bs-dismiss="modal"
-          on:click={() => {
-            dispatch("close");
-          }}
-          ><i class="fa-solid fa-circle-xmark" />
-        </button>
-      </footer>
+        <footer class="modal-footer bg-info bg-gradient bg-opacity-25">
+          <button class="btn btn-warning rounded-0" on:click={enviar}
+            ><i class="fa-solid fa-cloud-arrow-up" />
+            {#if guardando}
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            {/if}
+          </button>
+          <button class="btn btn-danger bg-gradient bg-opacity-25 rounded-0"
+            ><i class="fa-solid fa-floppy-disk" />
+          </button>
+          <button
+            class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
+            on:click={compartir}
+            ><i class="fa-solid fa-share-nodes" />
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary rounded-0"
+            data-bs-dismiss="modal"
+            on:click={() => {
+              dispatch("close");
+            }}
+            ><i class="fa-solid fa-circle-xmark" />
+          </button>
+        </footer>
       {/if}
     </div>
   </div>

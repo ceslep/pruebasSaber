@@ -1,16 +1,16 @@
 <script context="module">
-  export async  function _getPruebas  (URL,Nivel,periodo) {
-    console.log({URL,Nivel,periodo})
+  export async function _getPruebas(URL, Nivel, periodo) {
+    console.log({ URL, Nivel, periodo });
     let response = await fetch(`${URL}getPruebas.php`, {
       method: "POST",
       body: JSON.stringify({ Nivel, periodo }),
     });
     return await response.json();
-  };
+  }
 </script>
 
 <script>
-	import { _Periodo } from './../Stores.js';
+  import { _Periodo } from "./../Stores.js";
   import ModalPrueba from "./ModalPrueba.svelte";
   import { onMount, afterUpdate } from "svelte";
   import { fade, fly } from "svelte/transition";
@@ -38,8 +38,7 @@
   });
 
   const getPruebas = async (Nivel) => {
-
-    return await _getPruebas($URL,Nivel,periodo);
+    return await _getPruebas($URL, Nivel, periodo);
     /* let response = await fetch(`${$URL}getPruebas.php`, {
       method: "POST",
       body: JSON.stringify({ Nivel, periodo }),
@@ -88,21 +87,25 @@
   </div>
 
   {#if showModalResultados}
-  <ModalResultados
-    show={showModalResultados}
-    on:close={() => (showModalResultados = false)}
-    {estudiante}
-    periodo={$_Periodo}
-  />
-{/if}
-
+    <ModalResultados
+      show={showModalResultados}
+      on:close={() => {
+        showModalResultados = false;
+      }}
+      {estudiante}
+      periodo={$_Periodo}
+    />
+  {/if}
 
   {#if showModalPrueba}
     <ModalPrueba
       show={showModalPrueba}
       title={prueba}
       {icon}
-      on:close={() => (showModalPrueba = false)}
+      on:close={() => {
+        showModalPrueba = false;
+        PruebaARealizar = [];
+      }}
       {PruebaARealizar}
       {estudiante}
       {prueba}
