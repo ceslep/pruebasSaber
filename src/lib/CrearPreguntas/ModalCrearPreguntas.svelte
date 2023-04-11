@@ -146,6 +146,7 @@
   const cbg=(node)=>{
     console.log(node.classList)
       node.parentElement.classList.value=node.classList.value;
+      node.parentElement.parentElement.classList.value=node.classList.value;
   }
 </script>
 
