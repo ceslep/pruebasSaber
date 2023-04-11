@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { URL, _Docente } from "./../../Stores.js";
   import {
     Form,
@@ -24,13 +24,9 @@
     e.preventDefault();
     dispatch("ver",{pregunta})
   };
-</script>
 
-<main>
-  <Form
-    on:submit={async (e) => {
-      e.preventDefault();
-      buscando = !buscando;
+  const getPreguntas=async()=>{
+    buscando = !buscando;
       console.log($_Docente);
       let docente = $_Docente.data[0].nombres;
       let response = await fetch(`${$URL}buscaPreguntas.php`, {
@@ -40,7 +36,20 @@
       Preguntas = await response.json();
       console.log({ Preguntas });
       buscando = !buscando;
-    }}
+    }
+
+    onMount(()=>{
+      getPreguntas();
+    })
+  
+</script>
+
+<main>
+  <Form
+    on:submit={async (e) => {
+      e.preventDefault();
+      getPreguntas();
+     }}
   >
     <FormGroup>
       <Label for="NucleoComun">Nucleo Común</Label>

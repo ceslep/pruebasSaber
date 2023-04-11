@@ -1,6 +1,28 @@
 <script>
-  import { Form, FormGroup, Label, Input } from "sveltestrap";
+  import { Form, FormGroup, Label, Input,Button } from "sveltestrap";
   export let pregunta;
+  let TAtp;
+
+ // @ts-ignore
+  // @ts-ignore
+    $:if(TAtp) {
+    let el=document.getElementById("TextoDeLaPregunta");
+    // @ts-ignore
+    let rr=Math.floor(el.value.length/100)+3;
+    console.clear();
+    // @ts-ignore
+    console.log(el.value.length)
+    console.log({rr});
+    // @ts-ignore
+    el.rows=rr;
+  }
+  
+ // @ts-ignore
+  // @ts-ignore
+    $:console.log({TAtp})
+
+
+  
 </script>
 
 <Form>
@@ -9,6 +31,7 @@
       >Texto de La pregunta</Label
     >
     <Input
+    bind:this={TAtp}
       bind:value={pregunta.TextoDeLaPregunta}
       type="textarea"
       name="TextoDeLaPregunta"
@@ -135,3 +158,7 @@
     </Input>
   </FormGroup>
 </Form>
+
+<Button >
+  Drive
+</Button>

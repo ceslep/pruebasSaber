@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="description" content="Autor: Ing César Patiño Vélez, ceslep@gmail.com">
@@ -28,19 +29,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
     integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <script>
+
+  
+
     document.addEventListener('readystatechange', (event) => {
       if (document.readyState === 'complete') {
         document.querySelector(".containerLoad").classList.add("d-none");
         document.getElementById("app").style.display = "block";
+
       }
     });
-  </script>
-  <style>
 
-    body{
+
+  </script>
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <style>
+    body {
       background: linear-gradient(white, green);
     }
+
     .containerLoad {
       width: 95vw;
       min-height: 95vh;
