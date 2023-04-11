@@ -10,6 +10,8 @@
   import "animate.css";
   import Modal from "bootstrap/js/dist/modal";
   import { Popover } from "sveltestrap";
+  import pregunta from "./DataObject";
+  import BuscarPreguntas from "./BuscarPreguntas.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -73,6 +75,9 @@
 
   let resultados;
   let verRespuestas = false;
+  let nuevaPregunta=false;
+  let buscaPreguntas=false;
+  let Pregunta=pregunta;
 
   onMount(async () => {
     verRespuestas = true;
@@ -143,11 +148,11 @@
     return await response.json();
   };
 
-  const cbg=(node)=>{
-    console.log(node.classList)
-      node.parentElement.classList.value=node.classList.value;
-      node.parentElement.parentElement.classList.value=node.classList.value;
-  }
+  const cbg = (node) => {
+    console.log(node.classList);
+    node.parentElement.classList.value = node.classList.value;
+    node.parentElement.parentElement.classList.value = node.classList.value;
+  };
 </script>
 
 <article
@@ -178,11 +183,13 @@
           <button
             type="button"
             class="btn btn-outline-secondary"
-            data-bs-dismiss="modal"
-            aria-label="Close"
             id="btn-plus"
             on:click={() => {
-              dispatch("close");
+                nuevaPregunta=true;
+                buscaPreguntas=false;
+                for (let llave in Pregunta) {
+                Pregunta[llave] = "";
+              }
             }}
           >
             <i class="fa-solid fa-plus text-white" />
@@ -193,19 +200,23 @@
             target="btn-plus"
             title="Agregar una pregunta"
           >
-          <div use:cbg slot="title" class="bg-warning bg-gradient bg-opacity-75 fs-6">
-           Agregar Pregunta
-          </div>
-          <div use:cbg class="bg-warning bg-gradient bg-opacity-25">Haga click aquí para crear una nueva pregunta.</div>
-            
+            <div
+              use:cbg
+              slot="title"
+              class="bg-warning bg-gradient bg-opacity-75 fs-6"
+            >
+              Agregar Pregunta
+            </div>
+            <div use:cbg class="bg-warning bg-gradient bg-opacity-25">
+              Haga click aquí para crear una nueva pregunta.
+            </div>
           </Popover>
           <button
             type="button"
             class="btn btn-outline-primary"
-            data-bs-dismiss="modal"
-            aria-label="Close"
             on:click={() => {
-              dispatch("close");
+             buscaPreguntas=true;
+             nuevaPregunta=false;
             }}
           >
             <i class="fa-solid fa-magnifying-glass text-white" />
@@ -225,7 +236,16 @@
       </header>
 
       <main class="modal-body">
-        <FormularioPreguntas />
+        {#if nuevaPregunta}
+        <FormularioPreguntas pregunta={Pregunta} />
+        {:else if buscaPreguntas}
+        <BuscarPreguntas on:ver={(e)=>{
+            console.log(e.detail.pregunta);
+            buscaPreguntas=false;
+            nuevaPregunta=true;
+            Pregunta=e.detail.pregunta;
+        }}/>
+        {/if}
       </main>
 
       <footer class="modal-footer bg-info bg-gradient bg-opacity-25">
