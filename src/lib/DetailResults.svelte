@@ -1,6 +1,6 @@
 <script>
-  import {_getPruebas} from "../lib/Prueba.svelte";
-	import { _Periodo,URL } from './../Stores.js';
+  import { _getPruebas } from "../lib/Prueba.svelte";
+  import { _Periodo, URL } from "./../Stores.js";
   import { onMount, afterUpdate } from "svelte";
   import { Accordion, AccordionItem, Alert } from "sveltestrap";
   import Graficas from "./Graficas.svelte";
@@ -79,33 +79,34 @@
     });
   };
 
-  let mostrarPrueba=false;
-  let estudiante={};
+  let mostrarPrueba = false;
+  let estudiante = {};
   let prueba;
-  let Pruebas=[];
-  let PruebaARealizar=[];
-  
-  const verPrueba=async (prb)=>{
-   estudiante.identificacion=resultados[resultados.findIndex(res=>res.prueba===prb)].estudiante;
-   estudiante.nivel=resultados[resultados.findIndex(res=>res.prueba===prb)].Nivel;
-   prueba=prb;
-   mostrarPrueba=!mostrarPrueba;
-   Pruebas = await _getPruebas($URL,estudiante.nivel,$_Periodo);
-   PruebaARealizar = [...Pruebas.filter((p) => p.NucleoComun === prueba)];
-  }
+  let Pruebas = [];
+  let PruebaARealizar = [];
+
+  const verPrueba = async (prb) => {
+    estudiante.identificacion =
+      resultados[resultados.findIndex((res) => res.prueba === prb)].estudiante;
+    estudiante.nivel =
+      resultados[resultados.findIndex((res) => res.prueba === prb)].Nivel;
+    prueba = prb;
+    mostrarPrueba = !mostrarPrueba;
+    Pruebas = await _getPruebas($URL, estudiante.nivel, $_Periodo);
+    PruebaARealizar = [...Pruebas.filter((p) => p.NucleoComun === prueba)];
+  };
 </script>
 
 {#if mostrarPrueba}
-<ModalPrueba
-  show={mostrarPrueba}
-  {estudiante}
-  {prueba}
-  title={prueba}
-  periodo={$_Periodo}
-  on:close={() => (mostrarPrueba = false)}
-  {PruebaARealizar}
-  
-/>
+  <ModalPrueba
+    show={mostrarPrueba}
+    {estudiante}
+    {prueba}
+    title={prueba}
+    periodo={$_Periodo}
+    on:close={() => (mostrarPrueba = false)}
+    {PruebaARealizar}
+  />
 {/if}
 <main>
   {#if pruebas && pruebas.length > 0 && Valoraciones.length > 0}
