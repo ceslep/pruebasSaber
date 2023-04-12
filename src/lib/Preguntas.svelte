@@ -1,3 +1,14 @@
+<script context="module">
+ export function errorImg(img) {
+    img.target.src = "./404.png";
+    img.target.width = "100";
+  }
+  export const loadImg = (img) => {
+    if (img.target.width < 500) img.target.width = 2 * img.target.width;
+  };
+
+</script>
+
 <script>
   import { afterUpdate, createEventDispatcher } from "svelte";
   import { loggedin } from "../Stores";
@@ -39,13 +50,7 @@ const corrincor=()=>{
     }
     corrincor();
   });
-  function errorImg(img) {
-    img.target.src = "./404.png";
-    img.target.width = "100";
-  }
-  const loadImg = (img) => {
-    if (img.target.width < 500) img.target.width = 2 * img.target.width;
-  };
+ 
 </script>
 
 <main class="container">

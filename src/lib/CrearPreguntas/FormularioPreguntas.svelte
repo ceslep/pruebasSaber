@@ -1,28 +1,87 @@
 <script>
-  import { Form, FormGroup, Label, Input,Button } from "sveltestrap";
+  import { afterUpdate } from "svelte";
+  import {
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Button,
+    Row,
+    Col,
+    Spinner,
+  } from "sveltestrap";
+  import { errorImg, loadImg } from "../Preguntas.svelte";
   export let pregunta;
   let TAtp;
+  let TAtpA;
+  let TAtpB;
+  let TAtpC;
+  let TAtpD;
 
- // @ts-ignore
   // @ts-ignore
-    $:if(TAtp) {
-    let el=document.getElementById("TextoDeLaPregunta");
+  // @ts-ignore
+  $: if (TAtp) {
+    let el = document.getElementById("TextoDeLaPregunta");
     // @ts-ignore
-    let rr=Math.floor(el.value.length/100)+3;
-    console.clear();
+    let rr = Math.floor(el.value.length / 100) + 3;
+
     // @ts-ignore
-    console.log(el.value.length)
-    console.log({rr});
+    console.log(el.value.length);
+    console.log({ rr });
     // @ts-ignore
-    el.rows=rr;
+    el.rows = rr;
   }
-  
- // @ts-ignore
+
+  $: if (TAtpA) {
+    let el = document.getElementById("RespuestaA");
+    // @ts-ignore
+    let rr = Math.floor(el.value.length / 100) + 3;
+
+    // @ts-ignore
+    console.log(el.value.length);
+    console.log({ rr });
+    // @ts-ignore
+    el.rows = rr;
+  }
+
+  $: if (TAtpB) {
+    let el = document.getElementById("RespuestaB");
+    // @ts-ignore
+    let rr = Math.floor(el.value.length / 100) + 3;
+
+    // @ts-ignore
+    console.log(el.value.length);
+    console.log({ rr });
+    // @ts-ignore
+    el.rows = rr;
+  }
+
+  $: if (TAtpC) {
+    let el = document.getElementById("RespuestaC");
+    // @ts-ignore
+    let rr = Math.floor(el.value.length / 100) + 3;
+
+    // @ts-ignore
+    console.log(el.value.length);
+    console.log({ rr });
+    // @ts-ignore
+    el.rows = rr;
+  }
+
+  $: if (TAtpD) {
+    let el = document.getElementById("RespuestaD");
+    // @ts-ignore
+    let rr = Math.floor(el.value.length / 100) + 3;
+
+    // @ts-ignore
+    console.log(el.value.length);
+    console.log({ rr });
+    // @ts-ignore
+    el.rows = rr;
+  }
   // @ts-ignore
-    $:console.log({TAtp})
-
-
-  
+  // @ts-ignore
+  $: console.log({ tapA: TAtpA ?? "" });
 </script>
 
 <Form>
@@ -31,7 +90,7 @@
       >Texto de La pregunta</Label
     >
     <Input
-    bind:this={TAtp}
+      bind:this={TAtp}
       bind:value={pregunta.TextoDeLaPregunta}
       type="textarea"
       name="TextoDeLaPregunta"
@@ -39,15 +98,36 @@
     />
   </FormGroup>
   <FormGroup>
-    <Label for="ImagenPregunta" class="text-success fw-bold"
-      >Imagen de La pregunta</Label
-    >
-    <Input
-      bind:value={pregunta.ImagenPregunta}
-      type="textarea"
-      name="ImagenPregunta"
-      id="ImagenPregunta"
-    />
+    <Row>
+      <Col xs={pregunta.ImagenPregunta.includes("drive")?"7":"12"}>
+        <Label for="ImagenPregunta" class="text-success fw-bold"
+          >Imagen de La pregunta</Label
+        >
+        <Input
+          bind:value={pregunta.ImagenPregunta}
+          type="textarea"
+          name="ImagenPregunta"
+          id="ImagenPregunta"
+        />
+      </Col>
+      <Col xs={pregunta.ImagenPregunta.includes("drive")?"5":"0"}>
+        {#if pregunta.ImagenPregunta && pregunta.ImagenPregunta.includes("drive")}
+          <img
+            src={`http://drive.google.com/uc?export=view&id=${
+              pregunta.ImagenPregunta.split("/")[5].split("?")[0]
+            }`}
+            alt="imagenPregunta"
+            class="img-fluid img-width mx-1"
+            width="100%"
+            loading="lazy"
+            on:error={errorImg}
+            on:load={loadImg}
+          />
+        {:else}
+          <Spinner size="xs" />
+        {/if}
+      </Col>
+    </Row>
   </FormGroup>
   <FormGroup>
     <Label for="ContinuacionTextoDeLaPregunta" class="text-success fw-bold"
@@ -61,40 +141,115 @@
     />
   </FormGroup>
   <FormGroup>
-    <Label for="ImagenPregunta" class="text-success fw-bold">Respuesta A</Label>
-    <Input
-      bind:value={pregunta.RespuestaA}
-      type="textarea"
-      name="RespuestaA"
-      id="RespuestaA"
-    />
+    <Row>
+      <Col xs={pregunta.RespuestaA.includes("drive")?"7":"12"}>
+        <Label for="RespuestaA" class="text-success fw-bold">Respuesta A</Label>
+        <Input
+          bind:this={TAtpA}
+          bind:value={pregunta.RespuestaA}
+          type="textarea"
+          name="RespuestaA"
+          id="RespuestaA"
+        />
+      </Col>
+
+      <Col xs={pregunta.RespuestaA.includes("drive")?"5":"0"}>
+        {#if pregunta.RespuestaA.includes("drive")}
+          <img
+            src={"http://drive.google.com/uc?export=view&id=" +
+              pregunta.RespuestaA.split("/")[5].split("?")[0]}
+            alt="imagenPregunta"
+            class="img-fluid img-width"
+            width="100%"
+            loading="lazy"
+            on:error={errorImg}
+          />
+        {/if}
+      </Col>
+    </Row>
   </FormGroup>
   <FormGroup>
-    <Label for="ImagenPregunta" class="text-success fw-bold">Respuesta B</Label>
-    <Input
-      bind:value={pregunta.RespuestaB}
-      type="textarea"
-      name="RespuestaB"
-      id="RespuestaB"
-    />
+    <Row>
+      <Col xs={pregunta.RespuestaB.includes("drive")?"7":"12"}>
+        <Label for="RespuestaB" class="text-success fw-bold">Respuesta B</Label>
+        <Input
+        bind:this={TAtpB}
+          bind:value={pregunta.RespuestaB}
+          type="textarea"
+          name="RespuestaB"
+          id="RespuestaB"
+        />
+      </Col>
+      <Col xs={pregunta.RespuestaB.includes("drive")?"5":"0"}>
+        {#if pregunta.RespuestaB.includes("drive")}
+          <img
+            src={"http://drive.google.com/uc?export=view&id=" +
+              pregunta.RespuestaB.split("/")[5].split("?")[0]}
+            alt="imagenPregunta"
+            class="img-fluid img-width"
+            width="100%"
+            loading="lazy"
+            on:error={errorImg}
+          />
+        {/if}
+      </Col>
+    </Row>
   </FormGroup>
   <FormGroup>
-    <Label for="ImagenPregunta" class="text-success fw-bold">Respuesta C</Label>
-    <Input
-      bind:value={pregunta.RespuestaC}
-      type="textarea"
-      name="RespuestaC"
-      id="RespuestaC"
-    />
+    <Row>
+      <Col xs={pregunta.RespuestaC.includes("drive")?"7":"12"}>
+        <Label for="RespuestaC" class="text-success fw-bold">Respuesta C</Label>
+        <Input
+        bind:this={TAtpC}
+          bind:value={pregunta.RespuestaC}
+          type="textarea"
+          name="RespuestaC"
+          id="RespuestaC"
+        />
+      </Col>
+      <Col xs={pregunta.RespuestaC.includes("drive")?"5":"0"}>
+        {#if pregunta.RespuestaC.includes("drive")}
+          <img
+            src={"http://drive.google.com/uc?export=view&id=" +
+              pregunta.RespuestaC.split("/")[5].split("?")[0]}
+            alt="imagenPregunta"
+            class="img-fluid img-width"
+            width="100%"
+            loading="lazy"
+            on:error={errorImg}
+          />
+        {/if}
+      </Col>
+    </Row>
   </FormGroup>
   <FormGroup>
-    <Label for="ImagenPregunta" class="text-success fw-bold">Respuesta D</Label>
-    <Input
-      bind:value={pregunta.RespuestaD}
-      type="textarea"
-      name="RespuestaD"
-      id="RespuestaD"
-    />
+    <Row>
+      <Col xs={pregunta.RespuestaD.includes("drive")?"7":"12"}>
+        <Label for="ImagenPregunta" class="text-success fw-bold"
+          >Respuesta D</Label
+        >
+        <Input
+        bind:this={TAtpD}
+          bind:value={pregunta.RespuestaD}
+          type="textarea"
+          name="RespuestaD"
+          id="RespuestaD"
+        />
+      </Col>
+      <Col xs={pregunta.RespuestaD.includes("drive")?"5":"0"}>
+        {#if pregunta.RespuestaD.includes("drive")}
+          <img
+            src={"http://drive.google.com/uc?export=view&id=" +
+              pregunta.RespuestaD.split("/")[5].split("?")[0]}
+            alt="imagenPregunta"
+            class="img-fluid img-width"
+            width="100%"
+            loading="lazy"
+            on:error={errorImg}
+          />
+        {/if}
+      </Col>
+    </Row>
   </FormGroup>
   <FormGroup>
     <Label for="RespuestaCorrecta" class="text-success fw-bold"
@@ -158,7 +313,3 @@
     </Input>
   </FormGroup>
 </Form>
-
-<Button >
-  Drive
-</Button>
