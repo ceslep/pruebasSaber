@@ -22,26 +22,25 @@
 
   const ver = (e, pregunta) => {
     e.preventDefault();
-    dispatch("ver",{pregunta})
+    dispatch("ver", { pregunta });
   };
 
-  const getPreguntas=async()=>{
+  const getPreguntas = async () => {
     buscando = !buscando;
-      console.log($_Docente);
-      let docente = $_Docente.data[0].nombres;
-      let response = await fetch(`${$URL}buscaPreguntas.php`, {
-        method: "POST",
-        body: JSON.stringify({ ...pregunta, docente }),
-      });
-      Preguntas = await response.json();
-      console.log({ Preguntas });
-      buscando = !buscando;
-    }
+    console.log($_Docente);
+    let docente = $_Docente.data[0].nombres;
+    let response = await fetch(`${$URL}buscaPreguntas.php`, {
+      method: "POST",
+      body: JSON.stringify({ ...pregunta, docente }),
+    });
+    Preguntas = await response.json();
+    console.log({ Preguntas });
+    buscando = !buscando;
+  };
 
-    onMount(()=>{
-      getPreguntas();
-    })
-  
+  onMount(() => {
+    getPreguntas();
+  });
 </script>
 
 <main>
@@ -49,7 +48,7 @@
     on:submit={async (e) => {
       e.preventDefault();
       getPreguntas();
-     }}
+    }}
   >
     <FormGroup>
       <Label for="NucleoComun">Nucleo Común</Label>
@@ -124,21 +123,18 @@
     <section class="mt-2">
       <Table rows={Preguntas} let:row responsive hover>
         <Column header="Texto Pregunta" width="40%">
-          {row.TextoDeLaPregunta}
+          {`${row.TextoDeLaPregunta.substring(0, 150)}...`}
         </Column>
-        <Column header="Cont Texto Pregunta" width="35%">
-          {row.ContinuacionTextoDeLaPregunta ?? ""}
-        </Column>
-        <Column width="25%">
-          <div class="text-center align-middle">
-            <Button
-              on:click={(e) => {
-                ver(e, row);
-              }}
-            >
-              <i class="fa-regular fa-eye" />
-            </Button>
-          </div>
+        <Column width="25%" class="d-flex justify-content-center align-items-center h-auto" style="height: 100%;">
+          <div>
+          <Button
+            on:click={(e) => {
+              ver(e, row);
+            }}
+          >
+            <i class="fa-regular fa-eye" />
+          </Button>
+        </div>
         </Column>
       </Table>
     </section>

@@ -1,6 +1,6 @@
 <script>
   import { _getPruebas } from "../lib/Prueba.svelte";
-  import { _Periodo, URL } from "./../Stores.js";
+  import { _Docente, _Periodo, loggedinDocente, URL } from "./../Stores.js";
   import { onMount, afterUpdate } from "svelte";
   import { Accordion, AccordionItem, Alert } from "sveltestrap";
   import Graficas from "./Graficas.svelte";
@@ -122,11 +122,13 @@
               "total"
             )}.-Correctas-${gE(prueba, "analisis")}-${gE(prueba, "tiempo")}m.`}
           >
-            <button
-              class="btn btn-danger bg-gradient bg-opacity-50 rounded-0 d-block w-100"
-              on:click={() => verPrueba(prueba)}
-              >Ver Prueba <i class="fa-regular fa-eye" /></button
-            >
+            {#if $loggedinDocente}
+              <button
+                class="btn btn-danger bg-gradient bg-opacity-50 rounded-0 d-block w-100"
+                on:click={() => verPrueba(prueba)}
+                >Ver Prueba <i class="fa-regular fa-eye" /></button
+              >
+            {/if}
             {#if verTabla}
               <Graficas
                 {prueba}

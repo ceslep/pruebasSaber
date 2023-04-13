@@ -75,9 +75,9 @@
 
   let resultados;
   let verRespuestas = false;
-  let nuevaPregunta=false;
-  let buscaPreguntas=false;
-  let Pregunta=pregunta;
+  let nuevaPregunta = false;
+  let buscaPreguntas = false;
+  let Pregunta = pregunta;
 
   onMount(async () => {
     verRespuestas = true;
@@ -153,6 +153,8 @@
     node.parentElement.classList.value = node.classList.value;
     node.parentElement.parentElement.classList.value = node.classList.value;
   };
+
+  const guardar = async () => {};
 </script>
 
 <article
@@ -168,7 +170,7 @@
   <div
     class="modal-dialog
           modal-dialog-scrollable
-          modal-fullscreen-md-down
+          modal-fullscreen-xl-down
           modal-dialog-centered
           modal-lg
                  animate__animated {animated}
@@ -185,9 +187,9 @@
             class="btn btn-outline-secondary"
             id="btn-plus"
             on:click={() => {
-                nuevaPregunta=true;
-                buscaPreguntas=false;
-                for (let llave in Pregunta) {
+              nuevaPregunta = true;
+              buscaPreguntas = false;
+              for (let llave in Pregunta) {
                 Pregunta[llave] = "";
               }
             }}
@@ -215,8 +217,8 @@
             type="button"
             class="btn btn-outline-primary"
             on:click={() => {
-             buscaPreguntas=true;
-             nuevaPregunta=false;
+              buscaPreguntas = true;
+              nuevaPregunta = false;
             }}
           >
             <i class="fa-solid fa-magnifying-glass text-white" />
@@ -237,22 +239,29 @@
 
       <main class="modal-body">
         {#if nuevaPregunta}
-        <FormularioPreguntas pregunta={Pregunta} />
+          <FormularioPreguntas
+            pregunta={Pregunta}
+            on:pregunta={(e) => {
+              console.log(e.detail.pregunta);
+            }}
+          />
         {:else if buscaPreguntas}
-        <BuscarPreguntas on:ver={(e)=>{
-            console.log(e.detail.pregunta);
-            buscaPreguntas=false;
-            nuevaPregunta=true;
-            Pregunta=e.detail.pregunta;
-        }}/>
+          <BuscarPreguntas
+            on:ver={(e) => {
+              console.log(e.detail.pregunta);
+              buscaPreguntas = false;
+              nuevaPregunta = true;
+              Pregunta = e.detail.pregunta;
+            }}
+          />
         {/if}
       </main>
 
       <footer class="modal-footer bg-info bg-gradient bg-opacity-25">
         <button
           class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
-          on:click={compartir}
-          ><i class="fa-solid fa-share-nodes" />
+          on:click={guardar}
+          ><i class="fa-solid fa-cloud-arrow-up" />
         </button>
         <button
           type="button"
