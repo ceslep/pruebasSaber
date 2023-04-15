@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  SvelteComponent, createEventDispatcher, onMount } from "svelte";
+  import {  createEventDispatcher, onMount } from "svelte";
   import { Form, FormGroup, Label, Input, Row, Col } from "sveltestrap";
   import { errorImg, loadImg } from "../Preguntas.svelte";
   export let pregunta;
@@ -118,6 +118,8 @@
     >
     <Input
       bind:this={TAtp}
+      bind:value={pregunta.TextoDeLaPregunta}
+      type="textarea"
       name="TextoDeLaPregunta"
       id="TextoDeLaPregunta"
       invalid={pregunta.TextoDeLaPregunta !== "" &&
