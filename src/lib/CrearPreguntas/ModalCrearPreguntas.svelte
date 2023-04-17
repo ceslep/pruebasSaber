@@ -12,7 +12,7 @@
   import { Popover } from "sveltestrap";
   import pregunta from "./DataObject";
   import BuscarPreguntas from "./BuscarPreguntas.svelte";
-  import axios from 'axios';
+  import axios from "axios";
   import Swal from "sweetalert2";
 
   const dispatch = createEventDispatcher();
@@ -159,13 +159,16 @@
   let preguntaJSON;
 
   const guardar = async () => {
-    let {data} = await axios.post(`${$URL}guardarPregunta.php`,JSON.stringify(preguntaJSON))
-    if (data && data.msg==="Exito")
-    Swal.fire({
-      title:'Preguntas',
-      text:'Se ha guardado con éxito',
-      timer:3000
-    })
+    let { data } = await axios.post(
+      `${$URL}guardarPregunta.php`,
+      JSON.stringify(preguntaJSON)
+    );
+    if (data && data.msg === "Exito")
+      Swal.fire({
+        title: "Preguntas",
+        text: "Se ha guardado con éxito",
+        timer: 3000,
+      });
   };
 </script>
 
@@ -255,7 +258,7 @@
             pregunta={Pregunta}
             on:pregunta={(e) => {
               //Pregunta={...e.detail.pregunta};
-              preguntaJSON=e.detail.pregunta;
+              preguntaJSON = e.detail.pregunta;
               console.log(preguntaJSON);
             }}
           />
@@ -266,7 +269,7 @@
               buscaPreguntas = false;
               nuevaPregunta = true;
               Pregunta = e.detail.pregunta;
-              preguntaJSON=e.detail.pregunta;
+              preguntaJSON = e.detail.pregunta;
             }}
           />
         {/if}
