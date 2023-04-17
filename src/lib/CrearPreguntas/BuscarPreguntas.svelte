@@ -121,11 +121,17 @@
   </Form>
   {#if Preguntas.length > 0}
     <section class="mt-2">
-      <Table rows={Preguntas} let:row responsive hover>
+      <Table rows={Preguntas} let:row responsive striped>
         <Column header="Texto Pregunta" width="40%">
           {`${row.TextoDeLaPregunta.substring(0, 150)}...`}
         </Column>
-        <Column width="25%" class="d-flex justify-content-center align-items-center h-auto" style="height: 100%;">
+        <Column header="Nivel" width="auto" class="text-center">
+          {row.Nivel}
+        </Column>
+        <Column header="Nucleo Común" width="auto" class="text-center">
+          {row.NucleoComun}
+        </Column>
+        <Column width="15%" header="Acción" class="text-center align-middle" style="height: 100%;">
           <div>
           <Button
             on:click={(e) => {
@@ -136,6 +142,7 @@
           </Button>
         </div>
         </Column>
+        
       </Table>
     </section>
   {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  SvelteComponent,  SvelteComponentTyped,  createEventDispatcher, onMount } from "svelte";
+  import {  SvelteComponent, createEventDispatcher, onMount } from "svelte";
   import { Form, FormGroup, Label, Input, Row, Col } from "sveltestrap";
   import { errorImg, loadImg } from "../Preguntas.svelte";
   export let pregunta;
