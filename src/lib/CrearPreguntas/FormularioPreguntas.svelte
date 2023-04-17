@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  SvelteComponent, createEventDispatcher, onMount } from "svelte";
+  import {  SvelteComponent,  SvelteComponentTyped,  createEventDispatcher, onMount } from "svelte";
   import { Form, FormGroup, Label, Input, Row, Col } from "sveltestrap";
   import { errorImg, loadImg } from "../Preguntas.svelte";
   export let pregunta;
@@ -7,11 +7,11 @@
   onMount(() => {
     console.log({ pregunta });
   });
-  let TAtp:any;
-  let TAtpA:any;
-  let TAtpB:any;
-  let TAtpC:any;
-  let TAtpD:any;
+  let TAtp:SvelteComponentTyped;
+  let TAtpA:SvelteComponentTyped;
+  let TAtpB:SvelteComponentTyped;
+  let TAtpC:SvelteComponentTyped;
+  let TAtpD:SvelteComponentTyped;
 
   $: if (TAtp) {
     let el = document.getElementById("TextoDeLaPregunta");
@@ -48,6 +48,8 @@
   $: {
     dispatch("pregunta", { pregunta });
   }
+
+ 
 </script>
 
 
@@ -118,6 +120,8 @@
     >
     <Input
       bind:this={TAtp}
+      bind:value={pregunta.TextoDeLaPregunta}
+      type="textarea"
       name="TextoDeLaPregunta"
       id="TextoDeLaPregunta"
       invalid={pregunta.TextoDeLaPregunta !== "" &&

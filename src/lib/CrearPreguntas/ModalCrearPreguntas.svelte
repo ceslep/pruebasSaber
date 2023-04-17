@@ -12,6 +12,7 @@
   import { Popover } from "sveltestrap";
   import pregunta from "./DataObject";
   import BuscarPreguntas from "./BuscarPreguntas.svelte";
+  import axios from 'axios';
 
   const dispatch = createEventDispatcher();
 
@@ -154,7 +155,12 @@
     node.parentElement.parentElement.classList.value = node.classList.value;
   };
 
-  const guardar = async () => {};
+  let preguntaJSON;
+
+  const guardar = async () => {
+    let response = await axios.post(`${$URL}guardarPregunta.php`,JSON.stringify(preguntaJSON))
+    console.log(response);
+  };
 </script>
 
 <article
@@ -242,7 +248,9 @@
           <FormularioPreguntas
             pregunta={Pregunta}
             on:pregunta={(e) => {
-              console.log(e.detail.pregunta);
+              //Pregunta={...e.detail.pregunta};
+              preguntaJSON=e.detail.pregunta;
+              console.log(preguntaJSON);
             }}
           />
         {:else if buscaPreguntas}
@@ -252,6 +260,7 @@
               buscaPreguntas = false;
               nuevaPregunta = true;
               Pregunta = e.detail.pregunta;
+              preguntaJSON=e.detail.pregunta;
             }}
           />
         {/if}
