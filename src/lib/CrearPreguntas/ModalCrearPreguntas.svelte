@@ -13,6 +13,7 @@
   import pregunta from "./DataObject";
   import BuscarPreguntas from "./BuscarPreguntas.svelte";
   import axios from 'axios';
+  import Swal from "sweetalert2";
 
   const dispatch = createEventDispatcher();
 
@@ -158,8 +159,13 @@
   let preguntaJSON;
 
   const guardar = async () => {
-    let response = await axios.post(`${$URL}guardarPregunta.php`,JSON.stringify(preguntaJSON))
-    console.log(response);
+    let {data} = await axios.post(`${$URL}guardarPregunta.php`,JSON.stringify(preguntaJSON))
+    if (data && data.msg==="Exito")
+    Swal.fire({
+      title:'Preguntas',
+      text:'Se ha guardado con éxito',
+      timer:3000
+    })
   };
 </script>
 
