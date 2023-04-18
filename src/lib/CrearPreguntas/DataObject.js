@@ -13,7 +13,8 @@ let pregunta = {
   NombreNivel: "",
   Nivel: "",
   ContinuacionTextoDeLaPregunta: "",
-  periodo: ""
+  periodo: "",
+  Identificacion:"",
 };
 
 export default pregunta;

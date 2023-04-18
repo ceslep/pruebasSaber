@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  SvelteComponent, createEventDispatcher, onMount } from "svelte";
+  import {  SvelteComponentTyped, createEventDispatcher, onMount } from "svelte";
   import { Form, FormGroup, Label, Input, Row, Col } from "sveltestrap";
   import { errorImg, loadImg } from "../Preguntas.svelte";
   export let pregunta;
@@ -12,6 +12,10 @@
   let TAtpB:SvelteComponentTyped;
   let TAtpC:SvelteComponentTyped;
   let TAtpD:SvelteComponentTyped;
+$:{
+  console.log(pregunta.TextoDeLaPregunta)
+  console.log(TAtp && TAtp['$$'].ctx[5].classList.contains("is-invalid"))
+}
 
   $: if (TAtp) {
     let el = document.getElementById("TextoDeLaPregunta");
@@ -44,17 +48,21 @@
   }
 
   const dispatch = createEventDispatcher();
+  let forma;
 
   $: {
-    dispatch("pregunta", { pregunta });
+    dispatch("pregunta", { pregunta,forma });
   }
 
  
 </script>
 
 
-<Form>
+<form bind:this={forma}>
   <input type="hidden" bind:value={pregunta.id} />
+  <input type="hidden" bind:value={pregunta.Nombre_Del_Docente}>
+  <input type="hidden" bind:value={pregunta.Identificacion}>
+  <input type="hidden" bind:value={pregunta.email}>
   <FormGroup>
     <Label for="NucleoComun" class="text-success fw-bold">Nucleo Común</Label>
     <Input
@@ -330,4 +338,4 @@
       <option value="D">D</option>
     </Input>
   </FormGroup>
-</Form>
+</form>

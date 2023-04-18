@@ -1,4 +1,5 @@
 <script>
+  import { _Docente } from "./../../Stores.js";
   import FormularioPreguntas from "./FormularioPreguntas.svelte";
   import { URL, _Estudiante } from "../../Stores";
   import {
@@ -157,14 +158,50 @@
   };
 
   let preguntaJSON;
+  let forma;
 
   const guardar = async () => {
+    if (preguntaJSON && preguntaJSON.id !== "") {
+      let { isConfirmed } = await Swal.fire({
+        title: "Actualizar",
+        text: "Se modificará la pregunta existente",
+        showDenyButton: true,
+        confirmButtonText: "Actualizar",
+        denyButtonText: `Cerrar`,
+      });
+      if (!isConfirmed) return;
+    } else {
+      preguntaJSON.Nombre_Del_Docente = $_Docente.data[0].nombres;
+      preguntaJSON.Identificacion = $_Docente.data[0].identificacion;
+      preguntaJSON.email = $_Docente.data[0].email;
+      console.log(preguntaJSON);
+      console.log(forma.elements['TextoDeLaPregunta'].classList.contains("is-valid"))
+      console.log(forma.checkValidity());
+      if ((!forma.checkValidity()) || (!forma.elements['TextoDeLaPregunta'].classList.contains("is-valid"))) {
+        Swal.fire({
+          icon: "error",
+          title: "Formulario Incompleto",
+          text: "Falta completar los campos requeridos de la pregunta",
+          footer: `Pruebas Saber ${new Date().getFullYear()}`,
+        });
+        return;
+      }
+    }
+    
     let { data } = await axios.post(
       `${$URL}guardarPregunta.php`,
       JSON.stringify(preguntaJSON)
     );
+    if (data["msg"]) {
+      Swal.fire({
+        icon: "error",
+        title: "Error de servidor",
+        text: data["error"],
+      });
+    }
     if (data && data.msg === "Exito")
       Swal.fire({
+        icon:"success",
         title: "Preguntas",
         text: "Se ha guardado con éxito",
         timer: 3000,
@@ -258,8 +295,8 @@
             pregunta={Pregunta}
             on:pregunta={(e) => {
               //Pregunta={...e.detail.pregunta};
-              preguntaJSON = e.detail.pregunta;
-              console.log(preguntaJSON);
+              preguntaJSON = { ...e.detail.pregunta };
+              forma = e.detail.forma;
             }}
           />
         {:else if buscaPreguntas}
