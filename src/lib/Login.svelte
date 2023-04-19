@@ -1,9 +1,10 @@
 <script>
   // @ts-nocheck
 
-  import { URL, _Estudiante,_Docente } from "./../Stores.js";
+  import { URL, _Estudiante, _Docente } from "./../Stores.js";
   import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
+  import axios from "axios";
 
   // @ts-nocheck
 
@@ -25,52 +26,51 @@
 
   const dispatch = createEventDispatcher();
 
-  let txtSwitch="Estudiante";
+  let txtSwitch = "Estudiante";
 
-  const chsw=(e)=>{
-    let {checked}=e.target;
-    txtSwitch=checked?"Docente":"Estudiante"  
-  }
+  const chsw = (e) => {
+    let { checked } = e.target;
+    txtSwitch = checked ? "Docente" : "Estudiante";
+  };
 
-  let login="login.php";
+  let login = "login.php";
 
   let Docente;
   let Estudiante;
 
-  $:login=txtSwitch==="Estudiante"?"login.php":"loginDocentes.php";
+  $: login = txtSwitch === "Estudiante" ? "login.php" : "loginDocentes.php";
 
   let loginspn = false;
 
-  $:Estudiante=txtSwitch==="Estudiante";
-  $:Docente=txtSwitch==="Docente";
+  $: Estudiante = txtSwitch === "Estudiante";
+  $: Docente = txtSwitch === "Docente";
 
   const loginet = async (e) => {
     e.preventDefault();
     loginspn = !loginspn;
     try {
-      let info = await (
-        await fetch(`${$URL}${login}`, {
-          method: "POST",
-          body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
-        })
-      ).json();
-      if (!info.acceso)
+      let { data } = await axios.post(
+        `${$URL}${login}`,
+        JSON.stringify(Object.fromEntries(new FormData(e.target)))
+      );
+
+      if (!data.acceso)
         Swal.fire({
           icon: "error",
           text: "Acceso Denegado",
         });
       else {
-        if (Estudiante){
-        $_Estudiante = info;
-        dispatch("login", { estudiante:info });
-        }else if (Docente){
-          $_Docente=info;
-          dispatch("loginDocente", { docente:info });
+        if (Estudiante) {
+          $_Estudiante = info;
+          dispatch("login", { estudiante: data });
+        } else if (Docente) {
+          $_Docente = data;
+          dispatch("loginDocente", { docente: data });
         }
-        
       }
       loginspn = !loginspn;
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: "error",
         text: "Ha ocurrido un error, revise su conexión a internet",

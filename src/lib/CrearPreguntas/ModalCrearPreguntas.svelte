@@ -78,7 +78,7 @@
 
   let resultados;
   let verRespuestas = false;
-  let nuevaPregunta = false;
+  let nuevaPregunta = true;
   let buscaPreguntas = false;
   let Pregunta = pregunta;
 

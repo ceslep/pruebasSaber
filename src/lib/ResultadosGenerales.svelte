@@ -6,15 +6,14 @@
   import ItemrespuestaGrados from "./ItemrespuestaGrados.svelte";
   import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
+  import axios from "axios";
 
   const dispatch = createEventDispatcher();
   const getResultados = async () => {
     try {
-      let response = await fetch(`${$URL}getRespuestasFull.php`, {
-        method: "POST",
-        body: JSON.stringify({ todos: true, periodo: 1 }),
-      });
-      return await response.json();
+      let {data} = await axios.post(`${$URL}getRespuestasFull.php`, 
+        JSON.stringify({ todos: true, periodo: 1 }));
+      return data;
     } catch (error) {
       await Swal.fire({
         icon: "error",
@@ -115,11 +114,13 @@
     </div>
   </nav>
   {#if Grupos.length === 0}
-    <div class="d-flex justify-content-center mt-5 pt-5">
+    <div class="d-flex justify-content-center align-itenms-center mt-5 pt-5 flex-row flex-nowrap">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
+     
     </div>
+    <div class="text-center">Cargando...</div>
   {:else}
     <article class="mt-2">
       <Accordion>
@@ -141,7 +142,11 @@
     </article>
   {/if}
 </main>
-
+<div class="d-flex justify-content-center align-items_center">
+  {#if Grupos.length === 0}
+<img src="./escudo.png" alt="" class="img-fluid">
+{/if}
+</div>s
 {#if showModalCedit}
   <ModalCrearPreguntas
     show={showModalCedit}

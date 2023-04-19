@@ -100,7 +100,7 @@
   $: if (Ordenados.length > 0) console.log(Ordenados);
 </script>
 
-<AccordionItem header={grupo}>
+<AccordionItem header={`Grupo ${grupo}`}>
   <TablaConsolidado
     resultados={[...resultados.filter((r) => r.grupo === grupo)]}
   />

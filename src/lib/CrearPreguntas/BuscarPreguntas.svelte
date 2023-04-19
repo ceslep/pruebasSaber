@@ -13,6 +13,7 @@
     Column,
     Spinner,
   } from "sveltestrap";
+  import axios from "axios";
 
   let pregunta = { NucleoComun: "", Nivel: "", periodo: "" };
   let Preguntas = [];
@@ -29,11 +30,11 @@
     buscando = !buscando;
     console.log($_Docente);
     let docente = $_Docente.data[0].nombres;
-    let response = await fetch(`${$URL}buscaPreguntas.php`, {
-      method: "POST",
-      body: JSON.stringify({ ...pregunta, docente }),
-    });
-    Preguntas = await response.json();
+    let { data } = await axios.post(
+      `${$URL}buscaPreguntas.php`,
+      JSON.stringify({ ...pregunta, docente })
+    );
+    Preguntas = [...data];
     console.log({ Preguntas });
     buscando = !buscando;
   };
@@ -131,18 +132,22 @@
         <Column header="Nucleo Común" width="auto" class="text-center">
           {row.NucleoComun}
         </Column>
-        <Column width="15%" header="Acción" class="text-center align-middle" style="height: 100%;">
+        <Column
+          width="15%"
+          header="Acción"
+          class="text-center align-middle"
+          style="height: 100%;"
+        >
           <div>
-          <Button
-            on:click={(e) => {
-              ver(e, row);
-            }}
-          >
-            <i class="fa-regular fa-eye" />
-          </Button>
-        </div>
+            <Button
+              on:click={(e) => {
+                ver(e, row);
+              }}
+            >
+              <i class="fa-regular fa-eye" />
+            </Button>
+          </div>
         </Column>
-        
       </Table>
     </section>
   {/if}
