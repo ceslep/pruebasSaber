@@ -11,8 +11,10 @@
   const dispatch = createEventDispatcher();
   const getResultados = async () => {
     try {
-      let {data} = await axios.post(`${$URL}getRespuestasFull.php`, 
-        JSON.stringify({ todos: true, periodo: 1 }));
+      let { data } = await axios.post(
+        `${$URL}getRespuestasFull.php`,
+        JSON.stringify({ todos: true, periodo: 1 })
+      );
       return data;
     } catch (error) {
       await Swal.fire({
@@ -33,7 +35,7 @@
     (a, b) => b - a
   );
 
-  $: if (Grupos.length>0) console.log({ Grupos });
+  $: if (Grupos.length > 0) console.log({ Grupos });
 
   const reload = async () => {
     resultados = [];
@@ -41,14 +43,13 @@
   };
 
   let showModalCedit = false;
-
   const cedit = () => {
     showModalCedit = !showModalCedit;
   };
 </script>
 
 <main>
-  <nav class="navbar  bg-primary bg-gradient bg-opacity-25">
+  <nav class="navbar bg-primary bg-gradient bg-opacity-25">
     <div class="container-fluid">
       <a class="navbar-brand" href="#!">Resultados</a>
       <div class="d-flex gap-1" role="search">
@@ -114,11 +115,12 @@
     </div>
   </nav>
   {#if Grupos.length === 0}
-    <div class="d-flex justify-content-center align-itenms-center mt-5 pt-5 flex-row flex-nowrap">
+    <div
+      class="d-flex justify-content-center align-itenms-center mt-5 pt-5 flex-row flex-nowrap"
+    >
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-     
     </div>
     <div class="text-center">Cargando...</div>
   {:else}
@@ -144,9 +146,10 @@
 </main>
 <div class="d-flex justify-content-center align-items_center">
   {#if Grupos.length === 0}
-<img src="./escudo.png" alt="" class="img-fluid">
-{/if}
-</div>s
+    <img src="./escudo.png" alt="" class="img-fluid" />
+  {/if}
+</div>
+
 {#if showModalCedit}
   <ModalCrearPreguntas
     show={showModalCedit}

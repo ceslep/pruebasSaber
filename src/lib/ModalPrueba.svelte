@@ -12,6 +12,7 @@
   import Swal from "sweetalert2";
   import "sweetalert2/src/sweetalert2.scss";
   import { Spinner } from "sveltestrap";
+  import axios from "axios";
   const dispatch = createEventDispatcher();
   let _Modal;
   let guardando = false;
@@ -170,6 +171,7 @@
     }
     return c;
   };
+
   const enviar = async () => {
     // @ts-ignore
     Swal.fire({
@@ -181,7 +183,7 @@
       toast: true,
     });
     let fin = generarHora();
-    let data = {
+    let dataJSON = {
       inicio,
       fin,
       estudiante: estudiante.identificacion,
@@ -197,16 +199,13 @@
       });
       return;
     }
-    console.log(data);
+    console.log(dataJSON);
     // guardando=true;
-    let response = await fetch(`${$URL}guardarRespuesta.php`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    let respuesta = await response.json();
+    let { data } = await axios.post(
+      `${$URL}guardarRespuesta.php`,
+      JSON.stringify(dataJSON)
+    );
+    let respuesta = data;
     if (respuesta.guardado)
       // @ts-ignore
       Swal.fire({
@@ -221,6 +220,7 @@
         text: `Ha habido un error al guardar la prueba de ${prueba}`,
       });
   };
+
   const compartir = () => {
     if (navigator.share) {
       navigator
@@ -239,15 +239,14 @@
     }
   };
   const getResults = async () => {
-    let response = await fetch(`${$URL}getRespuestas.php`, {
-      method: "POST",
-      body: JSON.stringify({
+    let {data} = await axios.post(`${$URL}getRespuestas.php`, 
+     JSON.stringify({
         estudiante: estudiante.identificacion,
         periodo,
         prueba,
-      }),
-    });
-    return await response.json();
+      })
+    );
+    return data;
   };
   // array para almacenar las fracciones
   const manageClicked = (e) => {
@@ -318,10 +317,10 @@
         <form bind:this={form}>
           {#if PruebaARealizar.length > 0}
             <Preguntas {PruebaARealizar} on:clicked={manageClicked} />
-            {:else}
+          {:else}
             <div class="d-flex justify-content-center">
-            <Spinner size="md" color="primary"/>
-          </div>
+              <Spinner size="md" color="primary" />
+            </div>
           {/if}
         </form>
       </main>

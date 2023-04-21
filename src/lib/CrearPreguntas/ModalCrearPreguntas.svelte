@@ -136,19 +136,19 @@
   };
 
   const getResults = async () => {
-    let response = await fetch(`${$URL}getRespuestasFull.php`, {
-      method: "POST",
-      body: JSON.stringify({}),
-    });
-    return await response.json();
+    let { data } = await axios.post(
+      `${$URL}getRespuestasFull.php`,
+      JSON.stringify({})
+    );
+    return data;
   };
 
   const getPruebas = async () => {
-    let response = await fetch(`${$URL}getPruebas.php`, {
-      method: "POST",
-      body: JSON.stringify({}),
-    });
-    return await response.json();
+    let { data } = await axios.post(
+      `${$URL}getPruebas.php`,
+      JSON.stringify({})
+    );
+    return data;
   };
 
   const cbg = (node) => {
@@ -175,9 +175,14 @@
       preguntaJSON.Identificacion = $_Docente.data[0].identificacion;
       preguntaJSON.email = $_Docente.data[0].email;
       console.log(preguntaJSON);
-      console.log(forma.elements['TextoDeLaPregunta'].classList.contains("is-valid"))
+      console.log(
+        forma.elements["TextoDeLaPregunta"].classList.contains("is-valid")
+      );
       console.log(forma.checkValidity());
-      if ((!forma.checkValidity()) || (!forma.elements['TextoDeLaPregunta'].classList.contains("is-valid"))) {
+      if (
+        !forma.checkValidity() ||
+        !forma.elements["TextoDeLaPregunta"].classList.contains("is-valid")
+      ) {
         Swal.fire({
           icon: "error",
           title: "Formulario Incompleto",
@@ -187,7 +192,7 @@
         return;
       }
     }
-    
+
     let { data } = await axios.post(
       `${$URL}guardarPregunta.php`,
       JSON.stringify(preguntaJSON)
@@ -201,7 +206,7 @@
     }
     if (data && data.msg === "Exito")
       Swal.fire({
-        icon:"success",
+        icon: "success",
         title: "Preguntas",
         text: "Se ha guardado con éxito",
         timer: 3000,

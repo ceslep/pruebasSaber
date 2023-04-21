@@ -61,7 +61,7 @@
         });
       else {
         if (Estudiante) {
-          $_Estudiante = info;
+          $_Estudiante = data;
           dispatch("login", { estudiante: data });
         } else if (Docente) {
           $_Docente = data;

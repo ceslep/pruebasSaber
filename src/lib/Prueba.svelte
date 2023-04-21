@@ -1,11 +1,13 @@
-<script context="module">
+<script context="module" lang="ts">
+  //const axios = require("axios");
+  import axios from "axios";
   export async function _getPruebas(URL, Nivel, periodo) {
     console.log({ URL, Nivel, periodo });
-    let response = await fetch(`${URL}getPruebas.php`, {
-      method: "POST",
-      body: JSON.stringify({ Nivel, periodo }),
-    });
-    return await response.json();
+    let { data } = await axios.post(
+      `${URL}getPruebas.php`,
+      JSON.stringify({ Nivel, periodo })
+    );
+    return data;
   }
 </script>
 
@@ -39,11 +41,6 @@
 
   const getPruebas = async (Nivel) => {
     return await _getPruebas($URL, Nivel, periodo);
-    /* let response = await fetch(`${$URL}getPruebas.php`, {
-      method: "POST",
-      body: JSON.stringify({ Nivel, periodo }),
-    });
-    return await response.json(); */
   };
 
   afterUpdate(async () => {

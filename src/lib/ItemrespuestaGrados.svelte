@@ -4,10 +4,8 @@
   import ModalResultados from "./ModalResultados.svelte";
   import TablaConsolidado from "./TablaConsolidado.svelte";
   import { beforeUpdate } from "svelte";
-  import Swal from "sweetalert2/dist/sweetalert2.js";
   import "sweetalert2/src/sweetalert2.scss";
   import { get_current_component } from "svelte/internal";
-  import Prueba from "./Prueba.svelte";
   const self = get_current_component();
   export let grupo;
   export let estudiantes;
@@ -26,7 +24,6 @@
         .forEach((results) => {
           let resptas = results.respuesta
             ? results.respuesta.respuestas.map((r, c, d) => {
-                // console.log(d);
                 return r.respuesta === "true" ? 1 / d.length : 0;
               })
             : [0];
@@ -48,13 +45,9 @@
         };
       }),
     ];
-
-    //    console.log(puntajes);
   });
 
   $: if (puntajes.length > 0) Puntajes = [...puntajes];
-
-  // $: console.log({ puntajes });
 
   let Ordenados = [];
   let ordenarPor = "Ordenar por Puntaje";
@@ -101,6 +94,7 @@
 </script>
 
 <AccordionItem header={`Grupo ${grupo}`}>
+  <div  slot="header"><img src="./escudo.png" alt="" class="border border-success img-thumbnail rounded-circle" width="15%"></div>
   <TablaConsolidado
     resultados={[...resultados.filter((r) => r.grupo === grupo)]}
   />

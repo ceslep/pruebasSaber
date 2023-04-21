@@ -8,7 +8,8 @@
   } from "svelte";
   import "animate.css";
   import DetailResults from "./DetailResults.svelte";
-  import Modal  from 'bootstrap/js/dist/modal';
+  import Modal from "bootstrap/js/dist/modal";
+  import axios from "axios";
 
   const dispatch = createEventDispatcher();
 
@@ -83,7 +84,7 @@
         animated = getAnimated();
         verRespuestas = false;
         resultados = await getResults();
-      //  console.log({resultados})
+        //  console.log({resultados})
       }
     } catch (error) {
       console.error(error);
@@ -128,30 +129,35 @@
   };
 
   const getResults = async () => {
-    let response = await fetch(`${$URL}getRespuestasFull.php`, {
-      method: "POST",
-      body: JSON.stringify({
+    let { data } = await axios.post(
+      `${$URL}getRespuestasFull.php`,
+      JSON.stringify({
         estudiante: estudiante.identificacion,
         periodo,
-      }),
-    });
-    return await response.json();
+      })
+    );
+    return data;
   };
 
   const getPruebas = async () => {
-    let response = await fetch(`${$URL}getPruebas.php`, {
-      method: "POST",
-      body: JSON.stringify({
+    let {data} = await axios.post(`${$URL}getPruebas.php`, 
+      JSON.stringify({
         Nivel: estudiante.nivel,
         periodo,
       }),
-    });
-    return await response.json();
+    );
+    return data;
   };
 
   let nombresEstudiante;
-  let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.acceso?$_Estudiante.data[0]:{apellido1:"",apellido2:"",nombre1:"",nombre2:""};
-  $: nombresEstudiante = $_Estudiante.acceso?`${apellido1} ${apellido2?apellido2:""} ${nombre1} ${nombre2?nombre2:""}`:estudiante.nombres;
+  let { apellido1, apellido2, nombre1, nombre2 } = $_Estudiante.acceso
+    ? $_Estudiante.data[0]
+    : { apellido1: "", apellido2: "", nombre1: "", nombre2: "" };
+  $: nombresEstudiante = $_Estudiante.acceso
+    ? `${apellido1} ${apellido2 ? apellido2 : ""} ${nombre1} ${
+        nombre2 ? nombre2 : ""
+      }`
+    : estudiante.nombres;
 </script>
 
 <article
@@ -165,7 +171,7 @@
   aria-hidden="true"
 >
   <div
-    class="modal-dialog 
+    class="modal-dialog
         modal-dialog-scrollable
         modal-fullscreen-md-down
         modal-dialog-centered
@@ -190,11 +196,10 @@
           <i class="fa fa-arrow-left" aria-hidden="true" />
         </button>
       </header>
-     
+
       <main class="modal-body">
         <strong class="text-primary">{nombresEstudiante}</strong>
         {#if resultados}
-        
           <DetailResults
             pruebas={resultados.map((r) => r.prueba)}
             {resultados}
@@ -207,8 +212,8 @@
           </div>
         {/if}
       </main>
-     
-      <footer class="modal-footer  bg-info bg-gradient bg-opacity-25">
+
+      <footer class="modal-footer bg-info bg-gradient bg-opacity-25">
         <button
           class="btn btn-success bg-gradient bg-opacity-25 rounded-0"
           on:click={compartir}
