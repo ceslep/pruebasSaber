@@ -29,7 +29,12 @@
           },
         ],
       },
-      
+      options:{
+        radius:"75%",
+        responsive:true,
+        maintainAspectRatio:false,
+       
+      }
     });
   };
 
@@ -43,17 +48,18 @@
 <main class="os w-50 text-center">
   <div class="">
     <div class="grid">
-    <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} />
-    <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }} />
-  </div>F
+      <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} />
+      <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }} />
+    </div>
   </div>
 </main>
 
 <style>
- .grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  place-items: center;
- }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    place-items: center;
+    column-gap: 5px;
+  }
 </style>
