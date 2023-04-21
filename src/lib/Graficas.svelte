@@ -40,24 +40,20 @@
   });
 </script>
 
-<main class="os">
-  <div class="m-md-1 p-md-1 m-lg-2 p-lg-2 m-xl-3 p-xl-3 m-xxl-5 p-xxl-5">
+<main class="os w-50 text-center">
+  <div class="">
+    <div class="grid">
     <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} />
     <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }} />
+  </div>F
   </div>
 </main>
 
 <style>
-  /*   @media (max-width: 578px) {
-        .os {
-            height: 900px;
-            font-size: 0.6rem;
-        }
-    }
-    @media (min-width: 579px) {
-        .os {
-            height: 1660px;
-            font-size: 0.6rem;
-        }
-    } */
+ .grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  place-items: center;
+ }
 </style>

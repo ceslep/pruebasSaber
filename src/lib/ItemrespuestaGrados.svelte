@@ -93,8 +93,10 @@
   $: if (Ordenados.length > 0) console.log(Ordenados);
 </script>
 
-<AccordionItem header={`Grupo ${grupo}`}>
-  <div  slot="header"><img src="./escudo.png" alt="" class="border border-success img-thumbnail rounded-circle" width="15%"></div>
+<AccordionItem>
+  <div  slot="header"><img src="./escudo.png" alt="" class="border border-success img-thumbnail rounded-circle" width="15%">
+    <span class="fw-bold">{`Grupo ${grupo}`}</span>
+  </div>
   <TablaConsolidado
     resultados={[...resultados.filter((r) => r.grupo === grupo)]}
   />

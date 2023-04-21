@@ -1,12 +1,11 @@
 <script context="module">
- export function errorImg(img) {
+  export function errorImg(img) {
     img.target.src = "./404.png";
     img.target.width = "100";
   }
   export const loadImg = (img) => {
     if (img.target.width < 500) img.target.width = 2 * img.target.width;
   };
-
 </script>
 
 <script>
@@ -17,32 +16,31 @@
   const dispatch = createEventDispatcher();
   let letters = ["A", "B", "C", "D"];
 
-const corrincor=()=>{
-  
-  setTimeout(() => {
+  const corrincor = () => {
+    setTimeout(() => {
       console.clear();
-      if($loggedin) return;
+      if ($loggedin) return;
       let inputs = document.querySelectorAll(".form-check-input");
       inputs.forEach((input, i) => {
         // @ts-ignore
-        if (input.checked && input.dataset.correcta==="false") {
+        if (input.checked && input.dataset.correcta === "false") {
           // @ts-ignore
           input.nextElementSibling.style.border = "2px dotted red";
-           // @ts-ignore
+          // @ts-ignore
           input.nextElementSibling.style.color = "red";
         }
-         // @ts-ignore
-        if (input.dataset.correcta==="true") {
-           // @ts-ignore
+        // @ts-ignore
+        if (input.dataset.correcta === "true") {
+          // @ts-ignore
           input.nextElementSibling.style.border = "2px solid green";
-           // @ts-ignore
+          // @ts-ignore
           input.nextElementSibling.style.color = "green";
-           // @ts-ignore
-          input.nextElementSibling.style.fontWight="900";
+          // @ts-ignore
+          input.nextElementSibling.style.fontWight = "900";
         }
       });
     }, 2000);
-}
+  };
 
   afterUpdate(() => {
     for (var i = 0; i < document.forms.length; i++) {
@@ -50,16 +48,17 @@ const corrincor=()=>{
     }
     corrincor();
   });
- 
 </script>
 
-<main class="container">
+<main class="">
   {#if PruebaARealizar.length > 0}
-    <ol>
+    <ol class="">
       {#each PruebaARealizar as { TextoDeLaPregunta, ImagenPregunta, ContinuacionTextoDeLaPregunta, RespuestaA, RespuestaB, RespuestaC, RespuestaD, RespuestaCorrecta }, index}
         <li id={`pregunta${index}`}>
           <div class="text-justify fw-bold text-success mx-5">
-            {TextoDeLaPregunta.replace(/"/g, '')}
+            <p class="text-wrap ms-3">
+              {TextoDeLaPregunta.replace(/"/g, "")}
+            </p>
           </div>
           <hr />
           <section class="text-center mx-auto">
@@ -79,12 +78,14 @@ const corrincor=()=>{
           </section>
           <br />
           {#if ContinuacionTextoDeLaPregunta}
-            <p class="text-justify fst-italic text-primary fs-5 mx-5">
-              {ContinuacionTextoDeLaPregunta.replace(/"/g, '')}
-            </p>
+            <div class="text-justify fst-italic text-primary fs-5 mx-5">
+              <p class="text-wrap ms-3 w-75">
+                {ContinuacionTextoDeLaPregunta.replace(/"/g, "")}
+              </p>
+            </div>
           {/if}
           <section>
-            <ul>
+            <ul class="w-100">
               <input
                 type="hidden"
                 id="infoRespuesta{index}"
@@ -177,7 +178,11 @@ const corrincor=()=>{
                       />
                     {:else}
                       <div class="fs-5">
-                        {letters[indexRespuesta]}.&nbsp;{respuesta}
+                        <div class="ms-1 w-auto text-justify">
+                          <p>
+                            {letters[indexRespuesta]}.&nbsp;{respuesta}
+                          </p>
+                        </div>
                       </div>
                     {/if}
                   </li>
@@ -198,7 +203,7 @@ const corrincor=()=>{
     display: grid;
     width: 10%;
     justify-content: center;
-     margin:10px auto; 
+    margin: 10px auto;
   }
 
   @media screen and (max-width: 520px) {

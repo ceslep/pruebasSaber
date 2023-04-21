@@ -173,7 +173,7 @@
   <div
     class="modal-dialog
         modal-dialog-scrollable
-        modal-fullscreen-md-down
+        modal-fullscreen
         modal-dialog-centered
         modal-lg
                animate__animated {animated}
