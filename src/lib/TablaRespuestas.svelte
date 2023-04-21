@@ -62,7 +62,7 @@
           >{continuaciontextodelapregunta.decodeUnicode()}</td
         >
         <td class="text-justify">{textorespuesta.decodeUnicode()}</td>
-        <td class="text-center">{respuesta}</td>
+        <td class="text-center"><img width="30%" src={respuesta==="true"?"./feliz.png":"./triste.png"} alt="" class="img-fluid"></td>
       </tr>
     {/each}
     {/if}
