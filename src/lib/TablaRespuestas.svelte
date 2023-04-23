@@ -38,7 +38,7 @@
   let total;
 </script>
 
-<Table bordered hover striped responsive>
+<Table bordered striped responsive>
   <thead>
     <tr>
       <th>#</th>
@@ -57,15 +57,18 @@
             >{textodelapregunta.decodeUnicode().leftStr(100)}</td
           >
           <td class="text-justify"
-            >{continuaciontextodelapregunta.decodeUnicode()}</td
+            >{continuaciontextodelapregunta.decodeUnicode().leftStr(100)}</td
           >
-          <td class="text-justify">{textorespuesta.decodeUnicode()}</td>
-          <td class="text-center"
+          <td>
+            <p class="text-justify" style="width:150px;">
+            {textorespuesta.decodeUnicode().leftStr(100)}
+          </p>
+          </td>
+          <td class="text-center align-middle" style="width:150px;"
             ><img
-              width="30%"
               src={respuesta === "true" ? "./feliz.png" : "./triste.png"}
               alt=""
-              class="img-fluid"
+              class="img-fluid w-100"
             /></td
           >
         </tr>
