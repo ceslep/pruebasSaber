@@ -2,6 +2,7 @@
   import { afterUpdate, createEventDispatcher } from "svelte";
   import { Table } from "sveltestrap";
   export let respuestas = [];
+  import { errorImg } from "./Preguntas.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -60,9 +61,23 @@
             >{continuaciontextodelapregunta.decodeUnicode().leftStr(100)}</td
           >
           <td>
-            <p class="text-justify" style="width:150px;">
-            {textorespuesta.decodeUnicode().leftStr(100)}
-          </p>
+            {#if textorespuesta.includes("drive")}
+              <img
+                src={"http://drive.google.com/uc?export=view&id=" +
+                  textorespuesta.split("/")[5].split("?")[0]}
+                alt="imagenPregunta"
+                class="img-fluid img-width"
+                width="100%"
+                loading="lazy"
+                on:error={errorImg}
+              />
+            {:else}
+              <div class="ms-1 w-auto text-justify">
+                <p class="text-justify" style="width:150px;">
+                  {textorespuesta.decodeUnicode().leftStr(100)}
+                </p>
+              </div>
+            {/if}
           </td>
           <td class="text-center align-middle" style="width:150px;"
             ><img

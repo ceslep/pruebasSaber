@@ -48,8 +48,8 @@
 <main class="os w-50 text-center">
   <div class="">
     <div class="grid">
-      <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} />
-      <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }} />
+      <canvas use:graph={{ chart: Chart1, type: "bar", name: prueba }} class="m-4"/>
+      <canvas use:graph={{ chart: Chart2, type: "pie", name: prueba }}  class="m-3" />
     </div>
   </div>
 </main>
